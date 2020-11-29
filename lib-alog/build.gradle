@@ -11,8 +11,14 @@ def siteUrl = 'https://github.com/itsdf07/AppCores'   // 项目的主页
 def gitUrl = 'https://github.com/itsdf07/AppCores.git'   // Git仓库的url
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-version = "0.0.1" //发布版本号
+version = "0.0.3" //发布版本号
 group = "com.itsdf07" //最终引用形式，如compile 'com.itsdf07.lib-alog:0.0.1'，其中lib-alog在后面配置
+def alogVersion = version
+def alogDesc = '一个 Android 日志数据工具库'
+println("项目的主页:" + siteUrl)
+println("GitHub地址:" + gitUrl)
+println("发布版本号:" + version)
+println("发布组织:" + group)
 
 //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
@@ -57,20 +63,22 @@ dependencies {
 
 bintray {
     user = properties.getProperty("bintray.user")
+    println("bintray.user:" + user)
     key = properties.getProperty("bintray.apikey")
     pkg {
         repo = 'core'//自己创建的仓库名字
         name = 'lib-alog'//上传到JCenter的名字,最终引用的名字 implementation 'com.itsdf07.lib-alog:0.0.1'
+        println("依赖方式:" + "implementation '${group}.${name}:${alogVersion}'")
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ['MIT']//不能随便写，只能是仓库创建时选择的license type
         userOrg = 'itsdf07' //自己创建的organization名称，一定要全是小写字母，即使当时创建的名称含有大写，这里全部转换为小写，否则404
         publish = true // 是否是公开项目，公开别人可以引用
         version {
-            name = '0.0.1'
-            desc = '一个 Android 日志数据工具库'//描述，自己定义
-            released  = new Date()
-            vcsTag = 'v0.0.1'
+            name = alogVersion
+            desc = alogDesc//描述，自己定义
+            released = new Date()
+            vcsTag = 'v' + alogVersion
             attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
         }
     }
@@ -86,7 +94,7 @@ install {
                 packaging 'aar'
                 // Add your description here
                 name 'lib-alog'
-                description '一个 Android 日志数据工具库'
+                description alogDesc
                 url siteUrl
                 // Set your license
 //                licenses {
@@ -129,7 +137,7 @@ artifacts {
     archives sourcesJar
 }
 javadoc {
-    options{
+    options {
         //如果你的项目里面有中文注释的话，必须将格式设置为UTF-8，不然会出现乱码
         encoding "UTF-8"
         charSet 'UTF-8'

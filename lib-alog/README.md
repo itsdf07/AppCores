@@ -1,13 +1,11 @@
-@[TOC](目录)
 >以下`ALog`工具仅提供对`android.util.Log`的重新封装
 # 依赖方式
 `Gradle`引用方式
-- 必要时可在`Project`的`build.gradle`增加工具库的目标地址
 ```bash
 buildscript {
     repositories {
         maven {
-            url 'https://bintray.com/itsdf07/core/'//指定长裤地址
+            url 'https://bintray.com/itsdf07/core/'//指定仓库地址
         }
     }
 }

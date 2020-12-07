@@ -32,6 +32,8 @@ android {
     }
 }
 
+def     SmartRefreshLayout = "2.0.1"
+
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -45,11 +47,23 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation 'androidx.navigation:navigation-fragment:2.3.1'
-    implementation 'androidx.navigation:navigation-ui:2.3.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
+
+
+    //https://gitee.com/scwang90/SmartRefreshLayout
+    implementation "com.scwang.smart:refresh-layout-kernel:$SmartRefreshLayout"      //核心必须依赖
+    implementation "com.scwang.smart:refresh-header-classics:$SmartRefreshLayout"    //经典刷新头
+//    api "com.scwang.smart:refresh-header-radar:$SmartRefreshLayout"       //雷达刷新头
+//    api "com.scwang.smart:refresh-header-falsify:$SmartRefreshLayout"     //虚拟刷新头
+//    api "com.scwang.smart:refresh-header-material:$SmartRefreshLayout"    //谷歌刷新头
+//    api "com.scwang.smart:refresh-header-two-level:$SmartRefreshLayout"   //二级刷新头
+//    api "com.scwang.smart:refresh-footer-ball:$SmartRefreshLayout"       //球脉冲加载
+    implementation "com.scwang.smart:refresh-footer-classics:$SmartRefreshLayout"    //经典加载
 }

@@ -21,6 +21,7 @@ class MyApplication : Application(), LifecycleObserver {
         ALog.init().apply {
             logLevel = ALogLevel.FULL
             tag = "tag-itsdf07"
+            isShowThreadInfo = true
         }
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }

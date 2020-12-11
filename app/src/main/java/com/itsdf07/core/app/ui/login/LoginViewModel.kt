@@ -1,5 +1,6 @@
 package com.itsdf07.core.app.ui.login
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,13 +9,43 @@ import com.itsdf07.core.app.data.LoginRepository
 import com.itsdf07.core.app.data.Result
 
 import com.itsdf07.core.app.R
+import com.itsdf07.core.lib.alog.ALog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+    val dataLogin = MutableLiveData<DataLogin>().apply {
+        //TODO 此处可以处理本地已登陆过的账号记录
+        var loginId = "aso1"
+        var passwd = "123456"
+        var appInfo = "当前版本：1.0"
+        value = DataLogin(loginId, passwd, appInfo)
+//        GlobalScope.launch(Dispatchers.IO) {
+//            repeat(3) {
+//                ALog.d("it:${it}")
+//                delay(3000)
+//                value!!.loginId += it
+//                value!!.passwd += it
+//                value!!.appInfo += it
+//                postValue(value)
+//            }
+//        }
+    }
 
     private val _loginForm = MutableLiveData<LoginFormState>()
+
+    /**
+     * 登录前的数据状态
+     */
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
     private val _loginResult = MutableLiveData<LoginResult>()
+
+    /**
+     * 登录事件后的登陆结果
+     */
     val loginResult: LiveData<LoginResult> = _loginResult
 
     fun login(username: String, password: String) {
@@ -53,4 +84,14 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
+}
+
+fun Context.getAppVersion(): String {
+    val appContext = applicationContext
+    val manager = appContext.packageManager
+    val info = manager.getPackageInfo(appContext.packageName, 0)
+    if (info != null) {
+        return info.versionName
+    }
+    return "版本号获取失败"
 }

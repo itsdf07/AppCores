@@ -16,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+    private val TAG = "LoginViewModel"
     val dataLogin = MutableLiveData<DataLogin>().apply {
         //TODO 此处可以处理本地已登陆过的账号记录
         var loginId = "aso1"
@@ -48,9 +49,9 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
      */
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(username: String, password: String) {
+    fun login() {
         // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
+        val result = loginRepository.login(dataLogin.value!!.loginId, dataLogin.value!!.passwd)
 
         if (result is Result.Success) {
             _loginResult.value =
@@ -61,6 +62,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     }
 
     fun loginDataChanged(username: String, password: String) {
+        ALog.dTag(TAG, "username:${username},password:${password}")
         if (!isUserNameValid(username)) {
             _loginForm.value = LoginFormState(usernameError = R.string.invalid_username)
         } else if (!isPasswordValid(password)) {
@@ -84,14 +86,4 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
-}
-
-fun Context.getAppVersion(): String {
-    val appContext = applicationContext
-    val manager = appContext.packageManager
-    val info = manager.getPackageInfo(appContext.packageName, 0)
-    if (info != null) {
-        return info.versionName
-    }
-    return "版本号获取失败"
 }

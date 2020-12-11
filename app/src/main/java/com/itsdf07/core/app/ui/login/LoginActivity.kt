@@ -115,17 +115,14 @@ class LoginActivity : AppCompatActivity() {
             setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            etLoginId.text.toString(),
-                            etPasswd.text.toString()
-                        )
+                        loginViewModel.login()
                 }
                 false
             }
 
             btnLogin.setOnClickListener {
                 pbLoading.visibility = View.VISIBLE
-                loginViewModel.login(etLoginId.text.toString(), etPasswd.text.toString())
+                loginViewModel.login()
             }
         }
         titleBar.apply {

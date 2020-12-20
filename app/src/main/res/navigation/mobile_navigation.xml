@@ -22,4 +22,10 @@
         android:name="com.itsdf07.core.app.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_shortvideo"
+        android:name="ShortVideoFragment"
+        android:label="@string/menu_shortvideo"
+        tools:layout="@layout/fragment_shortvideo" />
 </navigation>

@@ -7,6 +7,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.itsdf07.core.lib.alog.ALog
 import com.itsdf07.core.lib.alog.ALogLevel
+import com.itsdf07.core.lib.net.NetInit
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.commonsdk.statistics.common.DeviceConfig
@@ -20,16 +21,6 @@ import com.umeng.commonsdk.statistics.common.DeviceConfig
  * @Date 2020/11/29
  */
 class MyApplication : Application(), LifecycleObserver {
-    override fun onCreate() {
-        super.onCreate()
-        ALog.init().apply {
-            logLevel = ALogLevel.FULL
-            tag = "tag-itsdf07"
-            isShowThreadInfo = false
-        }
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-        initUmeng()
-    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackgrounded() {
@@ -43,7 +34,32 @@ class MyApplication : Application(), LifecycleObserver {
         ALog.i("APP 唤醒到前台")
     }
 
-    fun initUmeng() {
+    override fun onCreate() {
+        super.onCreate()
+        ALog.init().apply {
+            logLevel = ALogLevel.FULL
+            tag = "tag-itsdf07"
+            isShowThreadInfo = false
+        }
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        initNet()
+        initUmeng()
+    }
+
+    private fun initNet() {
+        if (GlobalConfigs.is98Debug) {
+            NetInit.init(this)
+                .showLog(true)
+                .withApiHost(GlobalConfigs.BASE_URL_98)
+                .configure()
+        } else {
+            NetInit.init(this)
+                .withApiHost(GlobalConfigs.BASE_URL_LOCAL)
+                .configure()
+        }
+    }
+
+    private fun initUmeng() {
         /**
          * 设置组件化的Log开关
          * 参数: boolean 默认为false，如需查看LOG设置为true
@@ -75,4 +91,5 @@ class MyApplication : Application(), LifecycleObserver {
         }
         return deviceInfo
     }
+
 }

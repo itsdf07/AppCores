@@ -7,6 +7,10 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.itsdf07.core.lib.alog.ALog
 import com.itsdf07.core.lib.alog.ALogLevel
+import com.umeng.analytics.MobclickAgent
+import com.umeng.commonsdk.UMConfigure
+import com.umeng.commonsdk.statistics.common.DeviceConfig
+
 
 /**
  * @Description:
@@ -24,6 +28,7 @@ class MyApplication : Application(), LifecycleObserver {
             isShowThreadInfo = false
         }
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        initUmeng()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
@@ -36,5 +41,38 @@ class MyApplication : Application(), LifecycleObserver {
     fun onAppForegrounded() {
         // App in foreground
         ALog.i("APP 唤醒到前台")
+    }
+
+    fun initUmeng() {
+        /**
+         * 设置组件化的Log开关
+         * 参数: boolean 默认为false，如需查看LOG设置为true
+         */
+        UMConfigure.setLogEnabled(true)
+        /**
+         * 注意: 即使您已经在AndroidManifest.xml中配置过appkey和channel值，也需要在App代码中调
+         * 用初始化接口（如需要使用AndroidManifest.xml中配置好的appkey和channel值，
+         * UMConfigure.init调用中appkey和channel参数请置为null）。
+         */
+        UMConfigure.init(
+            this,
+            "5fdaf63ddd28915339221f17",
+            "Umeng_test",
+            UMConfigure.DEVICE_TYPE_PHONE,
+            null
+        )
+        //设置页面采集模式
+        //设置页面采集模式
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
+    }
+
+    fun getTestDeviceInfo(): Array<String?>? {
+        val deviceInfo = arrayOfNulls<String>(2)
+        try {
+            deviceInfo[0] = DeviceConfig.getDeviceIdForGeneral(this)
+            deviceInfo[1] = DeviceConfig.getMac(this)
+        } catch (e: Exception) {
+        }
+        return deviceInfo
     }
 }

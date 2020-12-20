@@ -12,7 +12,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -69,4 +69,10 @@ dependencies {
 //    api "com.scwang.smart:refresh-header-two-level:$SmartRefreshLayout"   //二级刷新头
 //    api "com.scwang.smart:refresh-footer-ball:$SmartRefreshLayout"       //球脉冲加载
     implementation "com.scwang.smart:refresh-footer-classics:$SmartRefreshLayout"    //经典加载
+
+
+    // 友盟统计SDK
+    implementation  'com.umeng.umsdk:common:9.3.3' // 版本号(必选)
+    implementation  'com.umeng.umsdk:asms:1.1.4' // asms包依赖(必选)
+
 }

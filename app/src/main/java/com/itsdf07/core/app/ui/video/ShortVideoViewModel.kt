@@ -1,6 +1,7 @@
+package com.itsdf07.core.app.ui.video
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.itsdf07.core.app.R
 import com.itsdf07.core.lib.alog.ALog
 import com.itsdf07.core.lib.net.api.ShortVideoResult
 import com.itsdf07.core.lib.net.callback.IError
@@ -17,21 +18,9 @@ import java.util.*
  * @Date 2020/11/14
  */
 class ShortVideoViewModel : ViewModel() {
-    private val listMutableLiveData: MutableLiveData<ArrayList<ShortVideoResult.DataBean.FirstVideosVosBean>> =
+    public val listMutableLiveData: MutableLiveData<ArrayList<ShortVideoResult.DataBean.FirstVideosVosBean>> =
         MutableLiveData()
     private var shortVideoList = arrayListOf<ShortVideoResult.DataBean.FirstVideosVosBean>()
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    var shortVideoCover = intArrayOf(
-        R.mipmap.h_pic_1,
-        R.mipmap.h_pic_2,
-        R.mipmap.h_pic_3,
-        R.mipmap.h_pic_4,
-        R.mipmap.h_pic_5,
-        R.mipmap.h_pic_6,
-        R.mipmap.h_pic_7
-    )
 
     fun loadData(): MutableLiveData<ArrayList<ShortVideoResult.DataBean.FirstVideosVosBean>> {
         listMutableLiveData.value = shortVideoList
@@ -70,17 +59,4 @@ class ShortVideoViewModel : ViewModel() {
             }).build().load98ShortVideosPost()
         return listMutableLiveData
     }
-
-//    private fun initShortVideoData(): ArrayList<ShortVideoBean> {
-//        for (i in 1..20) {
-//            shortVideoList.add(
-//                ShortVideoBean(
-//                    "这是第" + i + "个端视频",
-//                    "这个是端视频的详细描述",
-//                    shortVideoCover = shortVideoCover[(shortVideoCover.indices).random()]
-//                )
-//            )
-//        }
-//        return shortVideoList
-//    }
 }

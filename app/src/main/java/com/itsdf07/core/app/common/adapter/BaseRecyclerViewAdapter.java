@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -51,7 +53,12 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
      */
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BaseViewHolder holder = new BaseViewHolder(LayoutInflater.from(context).inflate(layoutId, parent, false));
+        //读取xml对内存
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        //建立绑定关系
+        ViewDataBinding binding = DataBindingUtil.inflate(inflater, layoutId, parent, false);
+
+        BaseViewHolder holder = new BaseViewHolder(binding);
         return holder;
     }
 

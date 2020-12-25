@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="dataLogin"
-            type="com.itsdf07.core.app.ui.login.DataLogin" /><!--DataLogin登录页的Mode数据-->
+            name="loginVM"
+            type="com.itsdf07.core.app.ui.login.LoginViewModel" /><!--DataLogin登录页的Mode数据-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +16,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.login.LoginActivity">
+
+        <ImageView
+            android:id="@+id/layout_top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@mipmap/h_pic_8"
+            app:layout_constraintDimensionRatio="W,1:2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--头像-->
+        <ImageView
+            android:id="@+id/header"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toBottomOf="@+id/layout_top"
+            app:layout_constraintDimensionRatio="W,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titlebar" />
+
 
         <com.itsdf07.core.app.view.TitleBar
             android:id="@+id/titlebar"
@@ -27,78 +50,98 @@
             custom:show_bottom_line="true"
             custom:title_text="@string/login_title" />
 
-        <EditText
-            android:id="@+id/loginId"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_indicator"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="96dp"
-            android:layout_marginEnd="24dp"
-            android:hint="@string/prompt_email"
-            android:selectAllOnFocus="true"
-            android:text="@={dataLogin.loginId}"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="用户登录账号" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_top"
+            app:tabIndicatorColor="#ffff5765"
+            app:tabIndicatorFullWidth="false"
+            app:tabMode="fixed"
+            app:tabPadding="0dp"
+            app:tabRippleColor="@android:color/transparent" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:hint="@string/prompt_password"
-            android:imeActionLabel="@string/action_sign_in_short"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:selectAllOnFocus="true"
-            android:text="@={dataLogin.passwd}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginId"
-            tools:text="用户登录密码" />
-
-        <Button
-            android:id="@+id/login"
+        <com.itsdf07.core.app.common.BaseViewPager
+            android:id="@+id/vp_tab_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginBottom="64dp"
-            android:enabled="false"
-            android:text="@string/login"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/color_0f8f45"
+            app:layout_constraintBottom_toTopOf="@+id/tvAppInfo"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password"
-            app:layout_constraintVertical_bias="0.2" />
+            app:layout_constraintTop_toBottomOf="@+id/tab_indicator" />
+        <!--        <EditText-->
+        <!--            android:id="@+id/loginId"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_margin="20dp"-->
+        <!--            android:hint="@string/prompt_email"-->
+        <!--            android:selectAllOnFocus="true"-->
+        <!--            android:text="@={loginVM.dataLogin.loginId}"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/layout_top"-->
+        <!--            tools:text="用户登录账号" />-->
 
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="64dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/password"
-            app:layout_constraintStart_toStartOf="@+id/password"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+        <!--        <EditText-->
+        <!--            android:id="@+id/password"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_margin="20dp"-->
+        <!--            android:hint="@string/prompt_password"-->
+        <!--            android:imeActionLabel="@string/action_sign_in_short"-->
+        <!--            android:imeOptions="actionDone"-->
+        <!--            android:inputType="textPassword"-->
+        <!--            android:selectAllOnFocus="true"-->
+        <!--            android:text="@={loginVM.dataLogin.passwd}"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/loginId"-->
+        <!--            tools:text="用户登录密码" />-->
+
+        <!--        <Button-->
+        <!--            android:id="@+id/login"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="start"-->
+        <!--            android:layout_marginStart="48dp"-->
+        <!--            android:layout_marginTop="16dp"-->
+        <!--            android:layout_marginEnd="48dp"-->
+        <!--            android:layout_marginBottom="64dp"-->
+        <!--            android:enabled="false"-->
+        <!--            android:text="@string/login"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/password"-->
+        <!--            app:layout_constraintVertical_bias="0.2" />-->
+
+        <!--        <ProgressBar-->
+        <!--            android:id="@+id/loading"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:layout_marginStart="32dp"-->
+        <!--            android:layout_marginTop="64dp"-->
+        <!--            android:layout_marginEnd="32dp"-->
+        <!--            android:layout_marginBottom="64dp"-->
+        <!--            android:visibility="gone"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/password"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/password"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:layout_constraintVertical_bias="0.3" />-->
 
         <TextView
+            android:id="@+id/tvAppInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:gravity="center"
-            android:text="@{dataLogin.appInfo}"
+            android:text="@={loginVM.dataLogin.appInfo}"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="这是APP的版本信息" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ import android.content.Context
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+//import com.itsdf07.core.app.BR
 import com.itsdf07.core.app.R
 import com.itsdf07.core.app.common.adapter.BaseRecyclerViewAdapter
 import com.itsdf07.core.app.common.adapter.BaseViewHolder
@@ -32,6 +33,9 @@ class ShortVideoAdapter(
         data: ShortVideoResult.DataBean.FirstVideosVosBean,
         position: Int
     ) {
+//        holder.binding.setVariable(BR.itemShowVideoData, data)
+//        holder.binding.executePendingBindings();
+
         var title = holder.getView<TextView>(R.id.text_shortvideo_title)
         var desc = holder.getView<TextView>(R.id.text_shortvideo_desc)
         var cover = holder.getView<ImageView>(R.id.bg_shortvideo_cover)

@@ -4,6 +4,7 @@ import android.util.SparseArray;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -14,11 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
  * @Date 2020/12/03
  */
 public class BaseViewHolder extends RecyclerView.ViewHolder {
+    private ViewDataBinding binding = null;
     private SparseArray<View> views;
     private String[] s;
 
-    public BaseViewHolder(@NonNull View view) {
-        super(view);
+    public BaseViewHolder(ViewDataBinding itemView) {
+        super(itemView.getRoot());
+        this.binding = itemView;
         this.views = new SparseArray<>();
     }
 
@@ -33,5 +36,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     public View getRootView() {
         return itemView;
+    }
+
+    public ViewDataBinding getBinding() {
+        return binding;
     }
 }

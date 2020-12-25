@@ -1,16 +1,19 @@
 package com.itsdf07.core.app.ui.login
 
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.itsdf07.core.app.R
 import com.itsdf07.core.app.common.BaseViewPager
+import com.itsdf07.core.app.data.TabLayoutBean
 import com.itsdf07.core.app.databinding.ActivityLoginBinding
 import com.itsdf07.core.app.view.TitleBar
 import com.itsdf07.core.lib.alog.ALog
@@ -76,9 +79,32 @@ class LoginActivity : AppCompatActivity() {
 
     /**
      * 初始化Tab相关事宜
+     * 1、
      */
     private fun initTab() {
+        //对应 TabLayout 的 Lifedata 数据
+        val tabs: MutableLiveData<ArrayList<TabLayoutBean>> = loginViewModel.loadFragments()
+
         tabLayoutIndicator = dataBinding.tabIndicator
+
+
+        tabLayoutIndicatorAdapter = TabFragmentAdapter(
+            supportFragmentManager,
+            FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
+            tabs.value!!
+        )
+        tabViewPager = dataBinding.vpTabPager
+        tabViewPager.adapter = tabLayoutIndicatorAdapter
+        tabLayoutIndicator.setupWithViewPager(tabViewPager)
+        tabViewPager.currentItem = 0
+//        //初始化TabLayout数据时先清空一下数据（非必须，根据业务需求）
+//        tabLayoutIndicator.removeAllTabs()
+//        for (tabBean in tabs.value!!) {
+//            val tab = tabLayoutIndicator.newTab().setCustomView(R.layout.tab_item_layout)
+//            var tabTitle = tab.customView!!.findViewById<TextView>(R.id.tab_item_title)
+//            tabTitle.text = tabBean.tabTitle
+//            tabLayoutIndicator.addTab(tab)
+//        }
         tabLayoutIndicator.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 ALog.i("onTabReselected->TabLayout二次点击了 ${tab?.text}")
@@ -93,7 +119,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
         })
-        tabViewPager = dataBinding.vpTabPager
+
         tabViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
@@ -113,14 +139,8 @@ class LoginActivity : AppCompatActivity() {
                 ALog.i("state:${state}")
             }
         })
-        tabLayoutIndicatorAdapter = TabFragmentAdapter(
-            supportFragmentManager,
-            FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
-            loginViewModel.loadFragments().value!!
-        )
-        tabViewPager.adapter = tabLayoutIndicatorAdapter
-        tabLayoutIndicator.setupWithViewPager(tabViewPager)
-        tabViewPager.currentItem = 0
+
+
     }
 
 }

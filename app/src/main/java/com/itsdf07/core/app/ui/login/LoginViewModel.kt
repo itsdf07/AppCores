@@ -15,7 +15,7 @@ class LoginViewModel() : ViewModel() {
     /**
      * ViewPager中对应的页面集合
      */
-    private var fragments: MutableLiveData<ArrayList<TabLayoutBean>> = MutableLiveData()
+    public var fragments: MutableLiveData<ArrayList<TabLayoutBean>> = MutableLiveData()
 
     private val TAG = "LoginViewModel"
     val dataLogin = MutableLiveData<DataLogin>().apply {
@@ -64,46 +64,7 @@ class LoginViewModel() : ViewModel() {
             tabTitle = "注册"
             fragment = HomeFragment()
         })
-        fragments.value!!.add(TabLayoutBean().apply {
-            tabTitle = "登录"
-            fragment = HomeFragment()
-        })
-        fragments.value!!.add(TabLayoutBean().apply {
-            tabTitle = "注册"
-            fragment = HomeFragment()
-        })
-        fragments.value!!.add(TabLayoutBean().apply {
-            tabTitle = "登录"
-            fragment = HomeFragment()
-        })
-        fragments.value!!.add(TabLayoutBean().apply {
-            tabTitle = "注册"
-            fragment = HomeFragment()
-        })
-        fragments.value!!.add(TabLayoutBean().apply {
-            tabTitle = "登录"
-            fragment = HomeFragment()
-        })
-        fragments.value!!.add(TabLayoutBean().apply {
-            tabTitle = "注册"
-            fragment = HomeFragment()
-        })
-        fragments.value!!.add(TabLayoutBean().apply {
-            tabTitle = "登录"
-            fragment = HomeFragment()
-        })
-        fragments.value!!.add(TabLayoutBean().apply {
-            tabTitle = "注册"
-            fragment = HomeFragment()
-        })
-        fragments.value!!.add(TabLayoutBean().apply {
-            tabTitle = "登录"
-            fragment = HomeFragment()
-        })
-        fragments.value!!.add(TabLayoutBean().apply {
-            tabTitle = "注册"
-            fragment = HomeFragment()
-        })
+
         return fragments
     }
 }

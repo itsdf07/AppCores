@@ -59,7 +59,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_top"
             app:tabIndicatorColor="#ffff5765"
-            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorFullWidth="true"
             app:tabMode="fixed"
             app:tabPadding="0dp"
             app:tabRippleColor="@android:color/transparent" />

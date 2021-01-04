@@ -24,16 +24,16 @@ class LoginViewModel() : ViewModel() {
         var passwd = "123456"
         var appInfo = "当前版本：1.0"
         value = DataLogin(loginId, passwd, appInfo)
-        GlobalScope.launch(Dispatchers.IO) {
-            repeat(3) {
-                ALog.d("it:${it}")
-                delay(3000)
-                value!!.loginId += it
-                value!!.passwd += it
-                value!!.appInfo += it
-                postValue(value)
-            }
-        }
+//        GlobalScope.launch(Dispatchers.IO) {
+//            repeat(3) {
+//                ALog.d("it:${it}")
+//                delay(3000)
+//                value!!.loginId += it
+//                value!!.passwd += it
+//                value!!.appInfo += it
+//                postValue(value)
+//            }
+//        }
     }
 
     private val _loginForm = MutableLiveData<LoginFormState>()
@@ -58,7 +58,7 @@ class LoginViewModel() : ViewModel() {
         fragments.value = arrayListOf()
         fragments.value!!.add(TabLayoutBean().apply {
             tabTitle = "登录"
-            fragment = HomeFragment()
+            fragment = LoginFragment()
         })
         fragments.value!!.add(TabLayoutBean().apply {
             tabTitle = "注册"
@@ -66,5 +66,9 @@ class LoginViewModel() : ViewModel() {
         })
 
         return fragments
+    }
+
+    fun login(){
+
     }
 }

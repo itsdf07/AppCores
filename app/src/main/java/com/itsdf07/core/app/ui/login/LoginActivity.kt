@@ -1,7 +1,6 @@
 package com.itsdf07.core.app.ui.login
 
 import android.os.Bundle
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -10,13 +9,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.tabs.TabLayout
+import com.gyf.immersionbar.ktx.immersionBar
 import com.itsdf07.core.app.R
 import com.itsdf07.core.app.common.BaseViewPager
 import com.itsdf07.core.app.data.TabLayoutBean
 import com.itsdf07.core.app.databinding.ActivityLoginBinding
 import com.itsdf07.core.app.view.TitleBar
 import com.itsdf07.core.lib.alog.ALog
+
 
 /**
  * @Description: 用户登录/注册页面
@@ -54,6 +58,10 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         dataBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_login)
+        immersionBar {
+            statusBarColor(R.color.transparent)
+            navigationBarColor(R.color.purple_200)
+        }
         loginViewModel =
             ViewModelProvider(this).get(LoginViewModel::class.java)
         dataBinding.loginVM = loginViewModel
@@ -72,6 +80,7 @@ class LoginActivity : AppCompatActivity() {
         initTab()
         Glide.with(this)
             .load(R.mipmap.icon_logo)
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
             .centerCrop()
             .placeholder(R.mipmap.icon_logo)
             .into(dataBinding.header)

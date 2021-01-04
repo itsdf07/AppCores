@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/loginid_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="@drawable/bg_login_edit"
+            android:gravity="center"
+            android:hint="请输入账号"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/passwd_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/bg_login_edit"
+            android:gravity="center"
+            android:hint="请输入密码"
+            android:imeOptions="actionGo"
+            android:inputType="textPassword"
+            app:layout_constraintTop_toBottomOf="@+id/loginid_input" />
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="登录"
+            app:layout_constraintTop_toBottomOf="@+id/passwd_input" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

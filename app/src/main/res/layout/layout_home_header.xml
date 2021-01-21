@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#8bd7ee"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <!--发现页头部金刚区（banners）列表，如创作、取色块-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/banners_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" />
+    <!--发现页头部蛋蛋区（eggs）列表，如样机、色卡、教程块-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/eggs_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" />
+    <!--发现页头部大图（activitys）列表，如样机、色卡、教程块-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activitys_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" />
+    <!--发现页头部轮播（slides）列表模块-->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/slides_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!--发现页头部方块区（blocks）列表块-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/blocks_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!--发现页头部热门话题区（blocks）列表块-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/hots_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_width="match_parent"
+        android:text="这是Title的Layout"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

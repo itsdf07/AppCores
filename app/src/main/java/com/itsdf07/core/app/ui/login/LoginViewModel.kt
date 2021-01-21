@@ -1,10 +1,10 @@
 package com.itsdf07.core.app.ui.login
 
+import HomeFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.itsdf07.core.app.data.TabLayoutBean
-import com.itsdf07.core.app.ui.home.HomeFragment
 import com.itsdf07.core.lib.alog.ALog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_item_egg_ic"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:src="@mipmap/main_ico_yangji" />
+
+        <TextView
+            android:id="@+id/iv_item_egg_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="样机"
+            android:textColor="#323232"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</layout>

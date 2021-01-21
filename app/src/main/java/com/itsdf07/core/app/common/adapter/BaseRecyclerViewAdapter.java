@@ -19,7 +19,7 @@ import java.util.List;
  * @Date 2020/12/03
  */
 public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
-    private Context context;
+    public Context context;
     //    private LayoutInflater inflater;
     private List<T> datas;
     private int layoutId;

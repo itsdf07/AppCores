@@ -7,7 +7,7 @@
 
         <variable
             name="itemShowVideoData"
-            type="com.itsdf07.core.app.ui.video.ShortVideoViewModel" />
+            type="com.itsdf07.core.app.ui.fragment.video.ShortVideoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

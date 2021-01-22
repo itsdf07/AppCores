@@ -8,7 +8,7 @@
 
         <variable
             name="svViewModel"
-            type="com.itsdf07.core.app.ui.video.ShortVideoViewModel" />
+            type="com.itsdf07.core.app.ui.fragment.video.ShortVideoViewModel" />
     </data>
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout

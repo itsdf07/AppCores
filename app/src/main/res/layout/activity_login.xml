@@ -8,14 +8,14 @@
 
         <variable
             name="loginVM"
-            type="com.itsdf07.core.app.ui.login.LoginViewModel" /><!--DataLogin登录页的Mode数据-->
+            type="com.itsdf07.core.app.ui.fragment.login.LoginViewModel" /><!--DataLogin登录页的Mode数据-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.login.LoginActivity">
+        tools:context=".ui.fragment.login.LoginActivity">
 
         <ImageView
             android:id="@+id/layout_top"

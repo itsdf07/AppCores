@@ -1,6 +1,7 @@
 package com.itsdf07.core.app.ui.activity.dynamic;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +49,10 @@ public class DynamicCommentsBean {
         private int is_author;
         private int like_num;
         private int is_like;
+        /**
+         * 评论对应的回复信息
+         */
+        private ArrayList<DynamicCommentReplysBean.ReplysBean> replys = new ArrayList<>();
 
         public int getUser_id() {
             return user_id;
@@ -135,6 +140,14 @@ public class DynamicCommentsBean {
 
         public void setIs_like(int is_like) {
             this.is_like = is_like;
+        }
+
+        public ArrayList<DynamicCommentReplysBean.ReplysBean> getReplys() {
+            return replys;
+        }
+
+        public void setReplys(ArrayList<DynamicCommentReplysBean.ReplysBean> replys) {
+            this.replys = replys;
         }
     }
 }

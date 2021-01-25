@@ -33,13 +33,7 @@ class DynamicCommentReplysAdapter(
         newCommentReplysData: ArrayList<DynamicCommentReplysBean.ReplysBean>,
         isClean: Boolean
     ) {
-        if (replysData == null) {
-            replysData = arrayListOf()
-        }
-        if (isClean) {
-            replysData.clear()
-        }
-        replysData.addAll(newCommentReplysData)
+        replysData = newCommentReplysData
         notifyDataSetChanged()
     }
 

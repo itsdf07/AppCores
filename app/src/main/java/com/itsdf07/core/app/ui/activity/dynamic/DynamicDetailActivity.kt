@@ -138,7 +138,6 @@ class DynamicDetailActivity : AppCompatActivity(), View.OnClickListener {
         })
         dynamicDetailsViewModel.netNotifyLifeData.observe(this, Observer {
             ALog.vTag("DynamicDetailViewModel", "commentData:${it.msg},url:${it.requestUrl}")
-            Toast.makeText(this, it.msg, Toast.LENGTH_SHORT).show()
         })
         initView()
     }

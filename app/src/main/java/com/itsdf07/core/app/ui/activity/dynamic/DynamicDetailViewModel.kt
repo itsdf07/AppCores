@@ -2,6 +2,7 @@ package com.itsdf07.core.app.ui.activity.dynamic
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.itsdf07.core.app.ui.vm.BaseViewModel
 import com.itsdf07.core.app.ui.vm.Notify2UILifeDataBean
 import com.itsdf07.core.lib.alog.ALog
@@ -129,29 +130,30 @@ class DynamicDetailViewModel : BaseViewModel() {
      */
     fun loadMoreReplys(
         commentId: Int,
-        adapterData: ArrayList<DynamicCommentReplysBean.ReplysBean>,
         requReplysSize: Int
     ) {
-        ALog.vTag(TAG, "commentId:$commentId,adapterData:${adapterData.size}")
-        for (i in 1..requReplysSize) {
-            adapterData.add(DynamicCommentReplysBean.ReplysBean().apply {
-                user_id = 21644
-                content = "好康好康！没有色差 布料摸起来也很舒服"
-                reply_uid = 0
-                reply_id = 2
-                created_time = 1611058861
-                user_name = "RL11"
-                user_avatar = "http://static.imjk.club/avatar/avatar_1608447649.jpg"
-                is_auth = 0
-                is_author = 1
-                reply_avatar = "http://static.imjk.club/avatar/avatar_1608447649.jpg"
-                reply_name = "叫我ASO"
-                like_num = 0
-                is_like = 0
-            })
+        for (commentBean in _commentData.value!!) {
+            if (commentBean.comment_id == commentId) {
+                for (i in 1..requReplysSize) {
+                    commentBean.replys.add(DynamicCommentReplysBean.ReplysBean().apply {
+                        user_id = 21644
+                        content = "好康好康！没有色差 布料摸起来也很舒服"
+                        reply_uid = 0
+                        reply_id = 2
+                        created_time = 1611058861
+                        user_name = "RL11"
+                        user_avatar = "http://static.imjk.club/avatar/avatar_1608447649.jpg"
+                        is_auth = 0
+                        is_author = 1
+                        reply_avatar = "http://static.imjk.club/avatar/avatar_1608447649.jpg"
+                        reply_name = "叫我ASO"
+                        like_num = 0
+                        is_like = 0
+                    })
+                }
+                break
+            }
         }
-
-        _commentReplysData.value = adapterData
         netNotifyLifeData.value = Notify2UILifeDataBean().apply {
             code = 0
             requestUrl = commentId.toString()

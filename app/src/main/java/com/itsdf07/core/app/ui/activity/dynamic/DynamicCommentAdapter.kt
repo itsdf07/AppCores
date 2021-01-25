@@ -67,24 +67,28 @@ class DynamicCommentAdapter(
                 ViewModelProvider(context as AppCompatActivity).get(DynamicDetailViewModel::class.java)
             var replys: RecyclerView = holder.getView(R.id.comment_replay)
             replys.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
+            ALog.vTag(
+                "DynamicDetailViewModel",
+                "comment_id:${data.comment_id},replys.size:${data.replys.size}"
+            )
             var replysAdatper = DynamicCommentReplysAdapter(
                 context,
-                dynamicDetailViewModel.commentReplysData.value!!,
+                data.replys,
                 R.layout.dynamic_comment_reply_item
             )
             commentReplyMoreTip.visibility = View.VISIBLE
             replys.adapter = replysAdatper
             dynamicDetailViewModel.netNotifyLifeData.observe(
-                context as AppCompatActivity,
+                context as DynamicDetailActivity,
                 Observer {
                     if (it.code == 0 && it.requestUrl == data.comment_id.toString()) {
+                        replysAdatper.setData(data.replys, true)
                         replysAdatper.notifyDataSetChanged()
                     }
 
                 })
             commentReplyMoreTip.setOnClickListener {
-                dynamicDetailViewModel.loadMoreReplys(data.comment_id, replysAdatper.getData(), 1)
+                dynamicDetailViewModel.loadMoreReplys(data.comment_id, 1)
             }
         } else {
             commentReplyMoreTip.visibility = View.GONE

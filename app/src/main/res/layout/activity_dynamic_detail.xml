@@ -110,7 +110,8 @@
                 <com.itsdf07.core.app.common.widget.SlideViewPager
                     android:id="@+id/layout_image_slide_viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="345dp" />
+                    android:layout_height="345dp"
+                    android:overScrollMode="never" />
                 <!--图片轮器指示器_页码-->
                 <TextView
                     android:id="@+id/image_slide_indicator_page"
@@ -192,7 +193,8 @@
                 android:id="@+id/dynamic_comment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="20dp"
+                android:overScrollMode="never" />
 
             <TextView
                 android:id="@+id/comment_more"

@@ -36,7 +36,7 @@ class DynamicCommentAdapter(
         var commentLike: ImageView = holder.getView(R.id.comment_like)
         var commentContent: TextView = holder.getView(R.id.comment_content)
         var commentDate: TextView = holder.getView(R.id.comment_date)
-        var commentReplayMoreTip: TextView = holder.getView(R.id.comment_replay_more)
+        var commentReplyMoreTip: TextView = holder.getView(R.id.comment_replay_more)
         Glide.with(context)
             .load(data.user_avatar)
             .apply(
@@ -60,12 +60,12 @@ class DynamicCommentAdapter(
             Toast.makeText(context, "我被点击了$position", Toast.LENGTH_SHORT).show()
         }
         if (data.reply_num > 0) {
-            commentReplayMoreTip.visibility = View.VISIBLE
-            commentReplayMoreTip.setOnClickListener {
+            commentReplyMoreTip.visibility = View.VISIBLE
+            commentReplyMoreTip.setOnClickListener {
                 Toast.makeText(context, "查看更多评论被点击了$position", Toast.LENGTH_SHORT).show()
             }
         } else {
-            commentReplayMoreTip.visibility = View.GONE
+            commentReplyMoreTip.visibility = View.GONE
         }
 
         commentLike.setOnClickListener {

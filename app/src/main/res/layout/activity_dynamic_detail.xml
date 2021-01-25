@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:orientation="vertical">
 
     <!--动态页面Title布局-->
     <RelativeLayout
         android:id="@+id/layout_title"
         android:layout_width="match_parent"
-        android:layout_height="44dp">
+        android:layout_height="44dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
         <!--动态页面Title布局_返回按钮-->
         <ImageView
             android:id="@+id/title_back"
@@ -74,99 +74,204 @@
             android:textSize="14sp" />
     </RelativeLayout>
 
-    <!--动态内容-->
-    <TextView
-        android:id="@+id/dynamic_detail"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/layout_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColor="#323232"
-        android:textSize="16dp" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout_comment_replay"
+        android:layout_below="@+id/layout_title"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-        <!--图片轮播-->
-        <com.itsdf07.core.app.common.widget.SlideViewPager
-            android:id="@+id/layout_image_slide_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="345dp" />
-        <!--图片轮器指示器_页码-->
-        <TextView
-            android:id="@+id/image_slide_indicator_page"
-            android:layout_width="64dp"
-            android:layout_height="32dp"
-            android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
-            android:background="@drawable/bg_dynamic_vp_count_normal"
-            android:gravity="center"
-            android:text="1/6"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
-        <!--图片轮器指示器_轮播内容提示-->
-        <TextView
-            android:id="@+id/image_slide_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_above="@+id/dynamic_image_slide_indicator_point"
-            android:layout_margin="20dp"
-            android:background="@drawable/bg_dynamic_vp_count_normal"
-            android:drawableLeft="@mipmap/square_detail_ico_yangji"
-            android:drawablePadding="6dp"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="使用同款样机"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp" />
-        <!--图片轮器指示器_红点-->
         <LinearLayout
-            android:id="@+id/dynamic_image_slide_indicator_point"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_image_slide_viewpager"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="6dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" />
-    </RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
+            android:fillViewport="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:orientation="vertical">
+            <!--动态内容-->
+            <TextView
+                android:id="@+id/dynamic_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="#323232"
+                android:textSize="16dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="44dp">
-        <!--点赞用户1头像-->
-        <ImageView
-            android:id="@+id/like_user_avatar_1"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/icon_logo" />
-        <!--点赞用户1头像-->
-        <ImageView
-            android:id="@+id/like_user_avatar_2"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_logo" />
-        <!--点赞用户相关信息-->
-        <TextView
-            android:id="@+id/like_user_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/like_user_avatar_1"
-            android:text="如果喜欢，支持一下叭"
-            android:textColor="#323232"
-            android:textSize="12sp" />
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <!--图片轮播-->
+                <com.itsdf07.core.app.common.widget.SlideViewPager
+                    android:id="@+id/layout_image_slide_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="345dp" />
+                <!--图片轮器指示器_页码-->
+                <TextView
+                    android:id="@+id/image_slide_indicator_page"
+                    android:layout_width="64dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/bg_dynamic_vp_count_normal"
+                    android:gravity="center"
+                    android:text="1/6"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+                <!--图片轮器指示器_轮播内容提示-->
+                <TextView
+                    android:id="@+id/image_slide_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_above="@+id/dynamic_image_slide_indicator_point"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/bg_dynamic_vp_count_normal"
+                    android:drawableLeft="@mipmap/square_detail_ico_yangji"
+                    android:drawablePadding="6dp"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="使用同款样机"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+                <!--图片轮器指示器_红点-->
+                <LinearLayout
+                    android:id="@+id/dynamic_image_slide_indicator_point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_image_slide_viewpager"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+                <!--点赞用户1头像-->
+                <ImageView
+                    android:id="@+id/like_user_avatar_1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_logo" />
+                <!--点赞用户1头像-->
+                <ImageView
+                    android:id="@+id/like_user_avatar_2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:src="@mipmap/icon_logo" />
+                <!--点赞用户相关信息-->
+                <TextView
+                    android:id="@+id/like_user_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/like_user_avatar_1"
+                    android:text="如果喜欢，支持一下叭"
+                    android:textColor="#323232"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#B5B5B5" />
+
+            <!--动态评论-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dynamic_comment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/comment_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="加载更多"
+                android:textColor="#349FF2"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/comment_over"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="到此为止"
+                android:textColor="#B5B5B5"
+                android:textSize="12dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_above="@+id/layout_comment_replay"
         android:background="#B5B5B5" />
+    <!--评论内容操作区域-->
+    <RelativeLayout
+        android:id="@+id/layout_comment_replay"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
+        <!--评论者的头像，即登录用户-->
+        <ImageView
+            android:id="@+id/comment_replay_author_avatar"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/icon_logo" />
 
-</LinearLayout>
+        <!--分享功能图标-->
+        <ImageView
+            android:id="@+id/comment_share_black"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/detailpage_share_black" />
+        <!--点赞功能图标-->
+        <ImageView
+            android:id="@+id/comment_like_black"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/comment_share_black"
+            android:src="@mipmap/detailpage_like_black" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/comment_like_black"
+            android:layout_toRightOf="@+id/comment_replay_author_avatar"
+            android:background="@drawable/bg_dynamic_comment_replay_normal"
+            android:gravity="center_vertical"
+            android:hint="说点什么吧"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColor="#B5B5B5"
+            android:textColorHint="#B5B5B5" />
+    </RelativeLayout>
+
+</RelativeLayout>

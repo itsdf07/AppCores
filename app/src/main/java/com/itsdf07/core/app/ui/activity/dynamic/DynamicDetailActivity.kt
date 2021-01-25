@@ -15,6 +15,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -96,6 +98,12 @@ class DynamicDetailActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var dynamicDetailsViewModel: DynamicDetailViewModel
     private lateinit var dynamicDetailsSlideAdapter: ImagesSlideAdapter
 
+    /**
+     * 动态评论
+     */
+    private lateinit var dynamicComment: RecyclerView
+    private lateinit var dynamicCommentAdapter: DynamicCommentAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +118,9 @@ class DynamicDetailActivity : AppCompatActivity(), View.OnClickListener {
         })
         dynamicDetailsViewModel.imagesSlideData.observe(this, Observer {
             dynamicDetailsSlideAdapter.setData(it)
+        })
+        dynamicDetailsViewModel.commentData.observe(this, Observer {
+            Toast.makeText(this, "数据变更了${it.size}", Toast.LENGTH_SHORT).show()
         })
         dynamicDetailsViewModel.netNotifyLifeData.observe(this, Observer {
             Toast.makeText(this, it.msg, Toast.LENGTH_SHORT).show()
@@ -135,6 +146,20 @@ class DynamicDetailActivity : AppCompatActivity(), View.OnClickListener {
         likeUserTip = findViewById(R.id.like_user_tip)
         initLikeUserStatus()
         initTitle()
+        dynamicComment = findViewById(R.id.dynamic_comment);
+        dynamicCommentAdapter = DynamicCommentAdapter(
+            this,
+            dynamicDetailsViewModel.commentData.value!!,
+            R.layout.dynamic_comment_item
+        )
+        dynamicComment.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        dynamicComment.adapter = dynamicCommentAdapter
+        initComment()
+    }
+
+    fun initComment() {
+
     }
 
     private fun initTitle() {

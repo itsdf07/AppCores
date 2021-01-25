@@ -26,6 +26,7 @@ class DynamicDetailViewModel : BaseViewModel() {
                 })
             }
             author_name = "叫我 ASO"
+            author_avatar = "http://static.imjk.club/avatar/avatar_1608447649.jpg"
             theme_content = "针不戳，红蓝格好好看，整体一套很有设计感，图是原相机，取回来立马换上#斩男色口红色卡 哈哈"
             theme_imgs = theme_imgsData
             like_users = simulateLikeUserData()
@@ -43,6 +44,15 @@ class DynamicDetailViewModel : BaseViewModel() {
     }
     var imagesSlideData: LiveData<ArrayList<ImagesSlideBean>> = _imagesSlideData
 
+    /**
+     * 动态页面图评论数据
+     */
+    private var _commentData =
+        MutableLiveData<ArrayList<DynamicCommentsBean.CommentsBean>>().apply {
+            value = simulateCommentsData()
+        }
+    var commentData: LiveData<ArrayList<DynamicCommentsBean.CommentsBean>> = _commentData
+
     fun themeImgs2ImagesSlideBean(themeImgsData: ArrayList<DynamicBean.ThemeImgsBean>): ArrayList<ImagesSlideBean> {
         var imagesSlideDatas: ArrayList<ImagesSlideBean> = arrayListOf()
         for (themeImageBean in themeImgsData) {
@@ -58,7 +68,7 @@ class DynamicDetailViewModel : BaseViewModel() {
     /**
      * 模拟动态页面素材轮播图
      */
-    fun simulateImagesSlideData(): ArrayList<ImagesSlideBean> {
+    private fun simulateImagesSlideData(): ArrayList<ImagesSlideBean> {
         var imagesSlideList = arrayListOf<ImagesSlideBean>()
         imagesSlideList.add(ImagesSlideBean().apply {
             id = 3
@@ -74,7 +84,7 @@ class DynamicDetailViewModel : BaseViewModel() {
     /**
      * 模拟动态页面点赞用户数据
      */
-    fun simulateLikeUserData(): ArrayList<DynamicBean.LikeUsersBean> {
+    private fun simulateLikeUserData(): ArrayList<DynamicBean.LikeUsersBean> {
         var likeUsersBean = arrayListOf<DynamicBean.LikeUsersBean>()
         likeUsersBean.add(DynamicBean.LikeUsersBean().apply {
             name = "111"
@@ -87,5 +97,36 @@ class DynamicDetailViewModel : BaseViewModel() {
         return likeUsersBean
     }
 
+    private fun simulateCommentsData(): ArrayList<DynamicCommentsBean.CommentsBean> {
+        var commentsBean = arrayListOf<DynamicCommentsBean.CommentsBean>()
+        commentsBean.add(DynamicCommentsBean.CommentsBean().apply {
+            user_id = 21644
+            content = "好康好康！没有色差 布料摸起来也很舒服"
+            reply_num = 2
+            comment_id = 1
+            created_time = 1611058861
+            user_name = "RL11"
+            user_avatar = "http://static.imjk.club/avatar/avatar_1608447649.jpg"
+            is_auth = 0
+            is_author = 1
+            like_num = 0
+            is_like = 0
+
+        })
+        commentsBean.add(DynamicCommentsBean.CommentsBean().apply {
+            user_id = 21643
+            content = "111好康好康！没有色差 布料摸起来也很舒服"
+            reply_num = 0
+            comment_id = 1
+            created_time = 1611058861
+            user_name = "ASO"
+            user_avatar = "http://static.imjk.club/avatar/avatar_1608447649.jpg"
+            is_auth = 1
+            is_author = 0
+            like_num = 5
+            is_like = 1
+        })
+        return commentsBean
+    }
 
 }

@@ -83,9 +83,6 @@ class DynamicCommentReplysAdapter(
 
         replyContent.text = data.content
         replyDate.text = DateTimeUtils.getDateToString(data.created_time, 14)
-        holder.itemView.setOnClickListener {
-            Toast.makeText(context, "我被点击了$position", Toast.LENGTH_SHORT).show()
-        }
 
         replyLike.setOnClickListener {
             Toast.makeText(context, "点赞被点击了$position", Toast.LENGTH_SHORT).show()

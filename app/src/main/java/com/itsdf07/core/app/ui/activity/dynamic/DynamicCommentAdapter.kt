@@ -1,11 +1,9 @@
 package com.itsdf07.core.app.ui.activity.dynamic
 
-import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -38,7 +36,7 @@ class DynamicCommentAdapter(
         data: DynamicCommentsBean.CommentsBean,
         position: Int
     ) {
-
+        ALog.vTag("DynamicCommentAdapter", "data.comment_id=${data.comment_id}")
         var commentAvatar: ImageView = holder.getView(R.id.comment_avatar)
         var commentDisplayName: TextView = holder.getView(R.id.comment_display_name)
         var commentLike: ImageView = holder.getView(R.id.comment_like)
@@ -64,21 +62,17 @@ class DynamicCommentAdapter(
 
         commentContent.text = data.content
         commentDate.text = DateTimeUtils.getDateToString(data.created_time, 14)
-        holder.itemView.setOnClickListener {
-            Toast.makeText(context, "我被点击了$position", Toast.LENGTH_SHORT).show()
-        }
         if (data.reply_num > 0) {
             var dynamicDetailViewModel: DynamicDetailViewModel =
                 ViewModelProvider(context as AppCompatActivity).get(DynamicDetailViewModel::class.java)
             var replys: RecyclerView = holder.getView(R.id.comment_replay)
             replys.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-            var replysAdatper: DynamicCommentReplysAdapter =
-                DynamicCommentReplysAdapter(
-                    context,
-                    dynamicDetailViewModel.commentReplysData.value!!,
-                    R.layout.dynamic_comment_reply_item
-                )
+            var replysAdatper = DynamicCommentReplysAdapter(
+                context,
+                dynamicDetailViewModel.commentReplysData.value!!,
+                R.layout.dynamic_comment_reply_item
+            )
             commentReplyMoreTip.visibility = View.VISIBLE
             replys.adapter = replysAdatper
             dynamicDetailViewModel.netNotifyLifeData.observe(

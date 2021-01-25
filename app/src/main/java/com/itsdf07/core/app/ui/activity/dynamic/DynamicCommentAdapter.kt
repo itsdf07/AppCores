@@ -80,23 +80,17 @@ class DynamicCommentAdapter(
                     R.layout.dynamic_comment_reply_item
                 )
             commentReplyMoreTip.visibility = View.VISIBLE
-//            replys.adapter = replysAdatper
-//            dynamicDetailViewModel.netNotifyLifeData.observe(
-//                context as AppCompatActivity,
-//                Observer {
-//                    ALog.vTag(
-//                        "DynamicDetailViewModel",
-//                        "2222222222222222222:${it.msg},url:${it.requestUrl}"
-//                    )
-//                    var newCommentReplys = replysAdatper.getData()
-//                    newCommentReplys.addAll(dynamicDetailViewModel.commentReplysData.value!!)
-//                    if (it.code == 0 && it.requestUrl == data.comment_id.toString()) {
-//                        replysAdatper.setData(newCommentReplys, false)
-//                    }
-//
-//                })
+            replys.adapter = replysAdatper
+            dynamicDetailViewModel.netNotifyLifeData.observe(
+                context as AppCompatActivity,
+                Observer {
+                    if (it.code == 0 && it.requestUrl == data.comment_id.toString()) {
+                        replysAdatper.notifyDataSetChanged()
+                    }
+
+                })
             commentReplyMoreTip.setOnClickListener {
-                dynamicDetailViewModel.loadMoreReplys(data.comment_id, 1)
+                dynamicDetailViewModel.loadMoreReplys(data.comment_id, replysAdatper.getData(), 1)
             }
         } else {
             commentReplyMoreTip.visibility = View.GONE

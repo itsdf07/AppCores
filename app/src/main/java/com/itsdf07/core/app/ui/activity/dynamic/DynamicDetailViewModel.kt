@@ -127,17 +127,14 @@ class DynamicDetailViewModel : BaseViewModel() {
      * @param commentId 评论的id
      * @param requReplysSize 本次加载的回复数量
      */
-    fun loadMoreReplys(commentId: Int, requReplysSize: Int) {
-        ALog.vTag(TAG, "commentId:$commentId,requReplysSize:$requReplysSize")
-        var tempCommentReplysData: ArrayList<DynamicCommentReplysBean.ReplysBean> =
-            if (_commentReplysData.value == null) {
-                arrayListOf()
-            } else {
-                _commentReplysData.value!!
-            }
-        _commentReplysData.value!!.clear()
+    fun loadMoreReplys(
+        commentId: Int,
+        adapterData: ArrayList<DynamicCommentReplysBean.ReplysBean>,
+        requReplysSize: Int
+    ) {
+        ALog.vTag(TAG, "commentId:$commentId,adapterData:${adapterData.size}")
         for (i in 1..requReplysSize) {
-            tempCommentReplysData.add(DynamicCommentReplysBean.ReplysBean().apply {
+            adapterData.add(DynamicCommentReplysBean.ReplysBean().apply {
                 user_id = 21644
                 content = "好康好康！没有色差 布料摸起来也很舒服"
                 reply_uid = 0
@@ -154,7 +151,7 @@ class DynamicDetailViewModel : BaseViewModel() {
             })
         }
 
-        _commentReplysData.value = tempCommentReplysData
+        _commentReplysData.value = adapterData
         netNotifyLifeData.value = Notify2UILifeDataBean().apply {
             code = 0
             requestUrl = commentId.toString()

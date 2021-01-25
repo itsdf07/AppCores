@@ -1,11 +1,12 @@
-
 import android.content.Context
+import android.content.Intent
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.itsdf07.core.app.R
 import com.itsdf07.core.app.common.adapter.BaseRecyclerViewAdapter
 import com.itsdf07.core.app.common.adapter.BaseViewHolder
+import com.itsdf07.core.app.ui.activity.dynamic.DynamicDetailActivity
 import com.itsdf07.core.app.ui.fragment.home.bean.JKRespHeanBean
 
 /**
@@ -39,7 +40,8 @@ class JKHeadBannersAdapter(
             .placeholder(R.mipmap.main_img_creation)
             .into(bannerItem)
         holder.itemView.setOnClickListener {
-            Toast.makeText(context, "跳转至${data.url}", Toast.LENGTH_SHORT).show()
+            context.startActivity(Intent(context, DynamicDetailActivity::class.java))
+//            Toast.makeText(context, "跳转至${data.url}", Toast.LENGTH_SHORT).show()
         }
     }
 }

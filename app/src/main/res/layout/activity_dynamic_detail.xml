@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <!--动态页面Title布局-->
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+        <!--动态页面Title布局_返回按钮-->
+        <ImageView
+            android:id="@+id/title_back"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/pin_left_black"
+            android:padding="10dp" />
+
+        <!--动态页面Title布局_用户头像-->
+        <ImageView
+            android:id="@+id/title_avatar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/title_back"
+            android:src="@mipmap/icon_logo" />
+        <!--动态页面Title布局_用户信息布局-->
+        <LinearLayout
+            android:id="@+id/layout_title_uer_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/title_avatar"
+            android:gravity="center_vertical"
+            android:onClick="onClick"
+            android:orientation="vertical">
+
+            <!--动态页面Title布局_用户信息布局_昵称-->
+            <TextView
+                android:id="@+id/title_user_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="叫我ASO"
+                android:textColor="#323232"
+                android:textSize="14sp" />
+
+            <!--动态页面Title布局_用户信息布局_动态时间-->
+            <TextView
+                android:id="@+id/title_user_dynamic_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2020-12-25"
+                android:textColor="#B5B5B5"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <!--动态页面Title布局_关注按钮-->
+        <TextView
+            android:id="@+id/title_dynamic_follow"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/selector_titlebar_follow_bg"
+            android:gravity="center"
+            android:minWidth="56dp"
+            android:text="关注"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <!--动态内容-->
+    <TextView
+        android:id="@+id/dynamic_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="#323232"
+        android:textSize="16dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+        <!--图片轮播-->
+        <com.itsdf07.core.app.common.widget.SlideViewPager
+            android:id="@+id/layout_image_slide_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="345dp" />
+        <!--图片轮器指示器_页码-->
+        <TextView
+            android:id="@+id/image_slide_indicator_page"
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_dynamic_vp_count_normal"
+            android:gravity="center"
+            android:text="1/6"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+        <!--图片轮器指示器_轮播内容提示-->
+        <TextView
+            android:id="@+id/image_slide_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_above="@+id/dynamic_image_slide_indicator_point"
+            android:layout_margin="20dp"
+            android:background="@drawable/bg_dynamic_vp_count_normal"
+            android:drawableLeft="@mipmap/square_detail_ico_yangji"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="使用同款样机"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+        <!--图片轮器指示器_红点-->
+        <LinearLayout
+            android:id="@+id/dynamic_image_slide_indicator_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_image_slide_viewpager"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+        <!--点赞用户1头像-->
+        <ImageView
+            android:id="@+id/like_user_avatar_1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_logo" />
+        <!--点赞用户1头像-->
+        <ImageView
+            android:id="@+id/like_user_avatar_2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:src="@mipmap/icon_logo" />
+        <!--点赞用户相关信息-->
+        <TextView
+            android:id="@+id/like_user_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/like_user_avatar_1"
+            android:text="如果喜欢，支持一下叭"
+            android:textColor="#323232"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#B5B5B5" />
+
+
+</LinearLayout>

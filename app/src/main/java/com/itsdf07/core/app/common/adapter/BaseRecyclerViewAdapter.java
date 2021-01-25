@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.itsdf07.core.lib.alog.ALog;
+
 import java.util.List;
 
 /**
@@ -59,11 +61,13 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         ViewDataBinding binding = DataBindingUtil.inflate(inflater, layoutId, parent, false);
 
         BaseViewHolder holder = new BaseViewHolder(binding);
+        ALog.vTag("BaseRecyclerViewAdapter", "viewType:%s", viewType);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
+        ALog.vTag("BaseRecyclerViewAdapter", "position:%s", position);
         bindData(holder, datas.get(position), position);
     }
 

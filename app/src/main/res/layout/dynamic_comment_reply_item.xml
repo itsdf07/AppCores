@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--评论者信息区-->
+        <RelativeLayout
+            android:id="@+id/layout_reply_title"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!--回复者的头像-->
+            <ImageView
+                android:id="@+id/reply_avatar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_logo" />
+            <!--回复者的昵称-->
+            <TextView
+                android:id="@+id/reply_display_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@+id/reply_avatar"
+                android:gravity="center_vertical"
+                android:text="格子酱的大号"
+                android:textColor="#888888"
+                android:textSize="12dp" />
+            <!--是否是官方-->
+            <TextView
+                android:id="@+id/reply_is_auth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@+id/reply_display_name"
+                android:gravity="center_vertical"
+                android:text="官方"
+                android:textColor="#FF3A5B"
+                android:textSize="10dp" />
+            <!--是否是作者-->
+            <TextView
+                android:id="@+id/reply_is_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@+id/reply_is_auth"
+                android:gravity="center_vertical"
+                android:text="作者"
+                android:textColor="#888888"
+                android:textSize="10dp" />
+
+            <ImageView
+                android:id="@+id/reply_like"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/square_like_s_actived"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </RelativeLayout>
+        <!--回复内容-->
+        <TextView
+            android:id="@+id/reply_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:text="好康好康！没有色差 布料摸起来也很舒服"
+            android:textColor="#323232"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_reply_title" />
+        <!--回复时间-->
+        <TextView
+            android:id="@+id/reply_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="26dp"
+            android:gravity="center_vertical"
+            android:text="12-25"
+            android:textColor="#B5B5B5"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reply_content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

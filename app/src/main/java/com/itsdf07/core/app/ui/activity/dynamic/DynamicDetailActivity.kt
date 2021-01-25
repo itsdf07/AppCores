@@ -24,6 +24,7 @@ import com.itsdf07.core.app.R
 import com.itsdf07.core.app.common.utils.DateTimeUtils
 import com.itsdf07.core.app.common.utils.DeviceUtils
 import com.itsdf07.core.app.common.widget.SlideViewPager
+import com.itsdf07.core.lib.alog.ALog
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -99,6 +100,11 @@ class DynamicDetailActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var dynamicDetailsSlideAdapter: ImagesSlideAdapter
 
     /**
+     * 加载更多评论按钮
+     */
+    private lateinit var loadMoreCommentBtn: TextView
+
+    /**
      * 动态评论
      */
     private lateinit var dynamicComment: RecyclerView
@@ -110,7 +116,15 @@ class DynamicDetailActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_dynamic_detail)
         dynamicDetailsViewModel = ViewModelProvider(this).get(DynamicDetailViewModel::class.java)
         dynamicDetailsViewModel.dynamicDetailData.observe(this, Observer {
-            dynamicDetailsSlideAdapter.setData(dynamicDetailsViewModel.themeImgs2ImagesSlideBean(it.theme_imgs as ArrayList<DynamicBean.ThemeImgsBean>))
+            //图片轮播内容
+            it.theme_imgs?.let { itt ->
+                dynamicDetailsSlideAdapter.setData(
+                    dynamicDetailsViewModel.themeImgs2ImagesSlideBean(
+                        itt as ArrayList<DynamicBean.ThemeImgsBean>
+                    )
+                )
+            }
+            //图片轮播内容指示器
             initThemeImagesSlideIndicator()
             initDynamicContentStyle(it.theme_content)
             initLikeUserStatus()
@@ -120,9 +134,10 @@ class DynamicDetailActivity : AppCompatActivity(), View.OnClickListener {
             dynamicDetailsSlideAdapter.setData(it)
         })
         dynamicDetailsViewModel.commentData.observe(this, Observer {
-            Toast.makeText(this, "数据变更了${it.size}", Toast.LENGTH_SHORT).show()
+            dynamicCommentAdapter.notifyDataSetChanged()
         })
         dynamicDetailsViewModel.netNotifyLifeData.observe(this, Observer {
+            ALog.vTag("DynamicDetailViewModel", "commentData:${it.msg},url:${it.requestUrl}")
             Toast.makeText(this, it.msg, Toast.LENGTH_SHORT).show()
         })
         initView()
@@ -156,10 +171,16 @@ class DynamicDetailActivity : AppCompatActivity(), View.OnClickListener {
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         dynamicComment.adapter = dynamicCommentAdapter
         initComment()
+
+        loadMoreCommentBtn = findViewById(R.id.comment_more)
+        loadMoreCommentBtn.setOnClickListener {
+            dynamicDetailsViewModel.loadMoreComments(6, 1)
+        }
     }
 
     fun initComment() {
-
+        dynamicDetailsViewModel.requeryDynamicDetails(6)
+        dynamicDetailsViewModel.loadMoreComments(6, 1)
     }
 
     private fun initTitle() {
@@ -252,7 +273,6 @@ class DynamicDetailActivity : AppCompatActivity(), View.OnClickListener {
         imagesSlideViewPager = findViewById(R.id.layout_image_slide_viewpager)
         imagesSlideIndicatorPage = findViewById(R.id.image_slide_indicator_page)
         dynamicDetailsSlideAdapter = ImagesSlideAdapter()
-//        dynamicDetailsSlideAdapter.setData(dynamicDetailsViewModel.dynamicDetailsData.value!!.theme_imgs)
         imagesSlideViewPager.adapter = dynamicDetailsSlideAdapter
         imagesSlideViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {

@@ -8,6 +8,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.itsdf07.core.lib.alog.ALog
 import com.itsdf07.core.lib.alog.ALogLevel
 import com.itsdf07.core.lib.net.NetInit
+import com.qq.e.comm.managers.GDTADManager
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.commonsdk.statistics.common.DeviceConfig
@@ -44,6 +45,10 @@ class MyApplication : Application(), LifecycleObserver {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         initNet()
         initUmeng()
+        initADGDT()
+    }
+    private fun initADGDT() {
+        GDTADManager.getInstance().initWith(this, "1111479260")
     }
 
     private fun initNet() {

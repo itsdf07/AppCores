@@ -8,7 +8,9 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.itsdf07.core.app"
+//        applicationId "com.itsdf07.core.app"
+        applicationId "cn.makecode.codefarm"
+//        applicationId "com.qq.e.union.demo"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1

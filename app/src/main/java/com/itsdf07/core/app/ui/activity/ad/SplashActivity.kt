@@ -1,4 +1,4 @@
-package com.itsdf07.core.app.ui.activity.splash
+package com.itsdf07.core.app.ui.activity.ad
 
 import android.Manifest
 import android.annotation.TargetApi
@@ -9,14 +9,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itsdf07.core.app.R
-import com.itsdf07.core.app.ui.activity.splash.ADGloadConfig.TAG_AD
+import com.itsdf07.core.app.ui.activity.ad.ADGloadConfig.TAG_AD
 import com.itsdf07.core.app.ui.navidrawer.MainDrawerNaviActivity
 import com.itsdf07.core.lib.alog.ALog
 import com.qq.e.ads.splash.SplashAD

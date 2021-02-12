@@ -1,4 +1,4 @@
-package com.itsdf07.core.app.ui.activity.splash;
+package com.itsdf07.core.app.ui.activity.ad;
 
 /**
  * @Description:
@@ -9,4 +9,6 @@ package com.itsdf07.core.app.ui.activity.splash;
  */
 public class ADGloadConfig {
     public static final String TAG_AD = "LOG_AD";
+    public static final int VIDEO_DURATION_SETTING_MIN = 5;
+    public static final int VIDEO_DURATION_SETTING_MAX = 60;
 }

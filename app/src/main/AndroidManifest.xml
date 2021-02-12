@@ -48,7 +48,7 @@
         <!--            </intent-filter>-->
         <!--        </activity>-->
         <activity
-            android:name=".ui.activity.splash.SplashActivity"
+            android:name=".ui.activity.ad.ADMainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,6 +56,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.ad.SplashActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ad.UnifiedInterstitialADActivity"
+            android:screenOrientation="portrait" />
 
         <activity android:name=".ui.navidrawer.MainDrawerNaviActivity" />
         <activity

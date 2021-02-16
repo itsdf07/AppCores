@@ -1,35 +1,33 @@
 package com.itsdf07.core.app.ui.fragment.home
 
-import DiscoverViewModel
-import JKHeadBannersAdapter
-import JKHeadBlocksAdapter
-import JKHeadEggsAdapter
-import StaggeredGridFragment
+import DiscoverBannersAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.itsdf07.core.app.R
-import com.itsdf07.core.app.common.GridSpacingItemDecoration
-import com.itsdf07.core.app.common.utils.DeviceUtils
+import com.itsdf07.core.app.ui.fragment.home.bean.BannersBean
 
-
+/**
+ * @Description: 首页-发现
+ * @Author itsdf07
+ * @E-Mail 923255742@qq.com
+ * @Github https://github.com/itsdf07
+ * @Date 2021/2/15
+ */
 class DiscoverFragment : Fragment() {
 
-    private lateinit var homeViewModel: DiscoverViewModel
+    private lateinit var discoverViewModel: DiscoverViewModel
     private lateinit var tabLayout: TabLayout
     lateinit var tabViewPage: ViewPager
-    lateinit var root: View
+    lateinit var rootView: View
 
     private val tabs = arrayOf("推荐", "最新")
     private val tabFragmentList = arrayListOf<Fragment>()
@@ -39,24 +37,7 @@ class DiscoverFragment : Fragment() {
      * 头部金刚区
      */
     private lateinit var headBannersList: RecyclerView
-    private lateinit var headBannersAdapter: JKHeadBannersAdapter
-
-    /**
-     * 头部蛋蛋区
-     */
-    private lateinit var headEggsList: RecyclerView
-    private lateinit var headEggsAdapter: JKHeadEggsAdapter
-
-    /**
-     * 头部大图区（亦是活动区）
-     */
-    private lateinit var headActivitysLis: RecyclerView
-
-    /**
-     * 头部方块区
-     */
-    private lateinit var headBlocksLis: RecyclerView
-    private lateinit var headBlocksAdapter: JKHeadBlocksAdapter
+    private lateinit var headBannersAdapter: DiscoverBannersAdapter
 
 
     override fun onCreateView(
@@ -64,134 +45,40 @@ class DiscoverFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        root = inflater.inflate(R.layout.fragment_discover, container, false)
-        return root
-    }
-
-    private fun initList() {
-        //添加tab
-
-        //添加tab
-        for (element in tabs) {
-            tabLayout.addTab(tabLayout.newTab().setText(element))
-        }
-        tabFragmentList.add(StaggeredGridFragment())
-        tabFragmentList.add(StaggeredGridFragment())
+        rootView = inflater.inflate(R.layout.fragment_discover, container, false)
+        return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        homeViewModel =
-            ViewModelProvider(this).get(DiscoverViewModel::class.java)
-        initHeadBlock()
-        initView()
-        initList()
-
+        discoverViewModel =
+            ViewModelProvider(requireActivity()).get(DiscoverViewModel::class.java)
         // TODO: Use the ViewModel
+        discoverViewModel.bannersBean.observe(requireActivity(), Observer {
+            updateBannersUI(it);
+        })
+
+        initAllView()
+        discoverViewModel.requeryDiscover()
     }
 
-    /**
-     * 初始化发现也头部相关UI
-     */
-    private fun initHeadBlock() {
-        headBannersList = root.findViewById(R.id.banners_list)
-        headBannersList.itemAnimator = DefaultItemAnimator()
-        headBannersList.addItemDecoration(
-            GridSpacingItemDecoration(
-                2,
-                DeviceUtils.dp2px(context, 11f),
-                false
-            )
-        )
+    private fun initAllView() {
+        headBannersList = rootView.findViewById(R.id.banners_list)
         headBannersList.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        headBannersAdapter =
-            context?.let {
-                JKHeadBannersAdapter(
-                    it,
-                    homeViewModel.headBeanData.value!!.banners,
-                    R.layout.jk_item_home_head_banner
-                )
-            }!!
+        headBannersAdapter = DiscoverBannersAdapter(
+            this,
+            discoverViewModel.bannersBean.value ?: arrayListOf(),
+            R.layout.jk_item_home_head_banner
+        )
         headBannersList.adapter = headBannersAdapter
-        //-----------------------------------------------------------
-
-        var column = homeViewModel.headBeanData.value!!.eggs.size
-        if (column > 5) {
-            column = 5
-        }
-        headEggsList = root.findViewById(R.id.eggs_list)
-        headEggsList.itemAnimator = DefaultItemAnimator()
-        headEggsList.addItemDecoration(
-            GridSpacingItemDecoration(
-                column,
-                DeviceUtils.dp2px(context, 11f),
-                false
-            )
-        )
-        headEggsList.layoutManager =
-            StaggeredGridLayoutManager(
-                column,
-                StaggeredGridLayoutManager.VERTICAL
-            )
-        headEggsAdapter =
-            context?.let {
-                JKHeadEggsAdapter(
-                    it,
-                    homeViewModel.headBeanData.value!!.eggs,
-                    R.layout.jk_item_home_head_egg
-                )
-            }!!
-        headEggsList.adapter = headEggsAdapter
-
-        //-----------------------------------------------------------
-        headBlocksLis = root.findViewById(R.id.blocks_list)
-        headBlocksLis.itemAnimator = DefaultItemAnimator()
-        headBlocksLis.addItemDecoration(
-            GridSpacingItemDecoration(
-                homeViewModel.headBeanData.value!!.eggs.size,
-                DeviceUtils.dp2px(context, 11f),
-                false
-            )
-        )
-        headBlocksLis.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        headBlocksAdapter =
-            context?.let {
-                JKHeadBlocksAdapter(
-                    it,
-                    homeViewModel.headBeanData.value!!.eggs,
-                    R.layout.jk_item_home_head_block
-                )
-            }!!
-        headBlocksLis.adapter = headBlocksAdapter
-
     }
 
-
-    private fun initView() {
-        tabLayout = root.findViewById(R.id.tab_layout)
-        tabViewPage = root.findViewById(R.id.view_pager)
-
-
-        tabViewPage.adapter = object : FragmentPagerAdapter(
-            childFragmentManager,
-            BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-        ) {
-            override fun getItem(position: Int): Fragment {
-                return tabFragmentList[position]
-            }
-
-            override fun getCount(): Int {
-                return tabs.size
-            }
-
-            @Nullable
-            override fun getPageTitle(position: Int): CharSequence? {
-                return tabs[position]
-            }
+    private fun updateBannersUI(banners: ArrayList<BannersBean>) {
+        if (banners == null) {
+            return
         }
-        tabViewPage.currentItem = 0
-//        tabLayout.setupWithViewPager(tabViewPage)
+        headBannersAdapter.updateData(banners)
+
     }
 }

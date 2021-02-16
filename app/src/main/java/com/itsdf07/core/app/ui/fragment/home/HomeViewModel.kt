@@ -23,7 +23,7 @@ class HomeViewModel : ViewModel() {
         var tabLayoutBean: ArrayList<TabLayoutBean> = arrayListOf()
         tabLayoutBean.add(TabLayoutBean().apply {
             tabTitle = "发现"
-            fragment = AFragment()
+            fragment = DiscoverFragment()
         })
         tabLayoutBean.add(TabLayoutBean().apply {
             tabTitle = "关注"

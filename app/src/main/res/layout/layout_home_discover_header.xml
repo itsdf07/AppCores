@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingBottom="20dp">
+
+    <!--发现页头部金刚区（banners）列表，如创作、取色块-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/banners_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:overScrollMode="never" />
+    <!--发现页头部蛋蛋区（eggs）列表，如样机、色卡、教程块-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/eggs_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:overScrollMode="never" />
+
+    <!--发现页头部大图区块-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activitys_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:overScrollMode="never" />
+
+    <RelativeLayout
+        android:id="@+id/layout_slides"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp">
+
+        <LinearLayout
+            android:id="@+id/slides_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal" />
+    </RelativeLayout>
+    <!--发现页头部方块区（blocks）列表块-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/blocks_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:overScrollMode="never" />
+
+    <TextView
+        android:id="@+id/hots_title_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="热门话题"
+        android:textColor="#323232"
+        android:textSize="16dp" />
+    <!--发现页头部热门话题区（hots）列表块-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/hots_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:overScrollMode="never" />
+
+</LinearLayout>

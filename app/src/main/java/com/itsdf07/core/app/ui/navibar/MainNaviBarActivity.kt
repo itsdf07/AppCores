@@ -1,6 +1,5 @@
 package com.itsdf07.core.app.ui.navibar
 
-import com.itsdf07.core.app.ui.fragment.home.DiscoverFragment
 import android.os.Bundle
 import android.os.Handler
 import android.view.View

@@ -1,11 +1,15 @@
 package com.itsdf07.core.lib.net.interceptor;
 
 
+import com.itsdf07.core.lib.net.ConfigKeys;
+import com.itsdf07.core.lib.net.NetInit;
 import com.itsdf07.core.lib.net.log.LogUtils;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -20,29 +24,27 @@ import okhttp3.Response;
 public class HeadInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
-//        final Request.Builder builder = chain.request().newBuilder();
-//        builder.addHeader("version","1.0.1");
-//        builder.addHeader("appOs","1");
-//        return chain.proceed(builder.build());
-//----------------------------------------------------------------------------------
         Request request = chain.request();
         LogUtils.logi("HeadInterceptor->intercept->请求url：" + request.url().host());
+        final Request.Builder builder = request.newBuilder();
+        IHeadParamsCallback headParamsCallback = NetInit.getConfiguration(ConfigKeys.INTERCEPTOR_PARAMS_HEADER.name());
+        HashMap<String, String> headers = null;
+        if (headParamsCallback != null) {
+            headers = headParamsCallback.headParams();
+        }
+        if (headers != null) {
+            Iterator iterator = headers.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                if (entry.getValue() != null) {
+                    String key = entry.getKey().toString();
+                    String value = entry.getValue().toString();
+                    builder.addHeader(key, value);
+                }
 
-        Headers newHeader = null;
-        //核心也是通过newBuilder 拿到Builder
-        Headers.Builder oldHeaders = request.
-                headers().
-                newBuilder();
-        //统一追加header参数
-        newHeader = oldHeaders
-                .add("version", "1.0.1")
-                .add("appOs", "1")
-                .build();
-
-        Request newRequest = request.newBuilder()
-                .headers(newHeader)
-                .build();
-        Response response = chain.proceed(newRequest);
+            }
+        }
+        Response response = chain.proceed(builder.build());
         LogUtils.logi("HeadInterceptor->intercept->response.code：" + response.code());
         return response;
     }

@@ -2,12 +2,16 @@ package com.itsdf07.core.lib.net.rtf2;
 
 
 import com.itsdf07.core.lib.net.api.ApiService;
-import com.itsdf07.core.lib.net.api.ApiService98;
-import com.itsdf07.core.lib.net.api.ShortVideoResult;
 import com.itsdf07.core.lib.net.callback.*;
 
-import java.util.HashMap;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,7 +77,26 @@ public class NetClient {
                 call = service.post(URL, PARAMS);
                 break;
             case POST_RAW:
-                call = service.postRaw(URL, BODY);
+                String body = "";
+                if (PARAMS != null && !PARAMS.isEmpty()) {
+                    Iterator postIterator = PARAMS.entrySet().iterator();
+                    JSONObject bodyJson = new JSONObject();
+                    while (postIterator.hasNext()) {
+                        Map.Entry entry = (Map.Entry) postIterator.next();
+                        if (entry.getValue() != null) {
+                            String key = entry.getKey().toString();
+                            String value = entry.getValue().toString();
+                            try {
+                                bodyJson.put(key, value);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    body = bodyJson.toString();
+                }
+                call = service.postRaw(URL, RequestBody.create(
+                        MediaType.parse("application/json;charset=UTF-8"), body));
                 break;
             default:
                 break;
@@ -83,7 +106,7 @@ public class NetClient {
         }
     }
 
-    private Callback<ShortVideoResult> getReqeustCallback() {
+    private Callback<String> getReqeustCallback() {
         return new RequestCallbacks(REQUEST, SUCCESS, FAILURE, ERROR);
     }
 
@@ -100,16 +123,6 @@ public class NetClient {
         request(HttpMethod.POST_RAW);
     }
 
-    public void load98ShortVideosPost() {
-        final ApiService98 service = NetCreator.getRestService98();
-        if (REQUEST != null) {
-            REQUEST.onRequestStart();
-        }
-        Call call = service.load98ShortVideos(URL, PARAMS);
-        if (call != null) {
-            call.enqueue(getReqeustCallback());
-        }
-    }
 }
 
 

@@ -76,6 +76,14 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         return datas == null ? 0 : datas.size();
     }
 
+    public void updateData(List<T> datas) {
+        if (datas == null) {
+            return;
+        }
+        this.datas = datas;
+        notifyDataSetChanged();
+    }
+
     protected abstract void bindData(BaseViewHolder holder, T data, int position);
 
     public void setOnItemClickListner(OnItemClickListner onItemClickListner) {

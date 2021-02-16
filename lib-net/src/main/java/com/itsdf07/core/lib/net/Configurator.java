@@ -1,5 +1,7 @@
 package com.itsdf07.core.lib.net;
 
+import com.itsdf07.core.lib.net.interceptor.IHeadParamsCallback;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -65,6 +67,17 @@ public class Configurator {
      */
     public final Configurator withApiHost(String host) {
         CONFIGS.put(ConfigKeys.API_HOST.name(), host);
+        return this;
+    }
+
+    /**
+     * params
+     *
+     * @param callback
+     * @return
+     */
+    public final Configurator withInterceptParams(IHeadParamsCallback callback) {
+        CONFIGS.put(ConfigKeys.INTERCEPTOR_PARAMS_HEADER.name(), callback);
         return this;
     }
 

@@ -1,9 +1,30 @@
+package com.itsdf07.core.app.ui.fragment.home
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
+import com.itsdf07.core.app.jk.JKSPUtils
+import com.itsdf07.core.app.jk.JKUrl
+import com.itsdf07.core.app.ui.fragment.home.bean.BannersBean
 import com.itsdf07.core.app.ui.fragment.home.bean.JKRespHeanBean
+import com.itsdf07.core.app.ui.vm.BaseViewModel
+import com.itsdf07.core.app.ui.vm.Notify2UILifeDataBean
+import com.itsdf07.core.lib.net.callback.ISuccess
+import com.itsdf07.core.lib.net.rtf2.NetClient
 
-class DiscoverViewModel : ViewModel() {
+/**
+ * @Description: DiscoverFragment 的 ViewModel
+ * @Author itsdf07
+ * @E-Mail 923255742@qq.com
+ * @Github https://github.com/itsdf07
+ * @Date 2021/2/16
+ */
+class DiscoverViewModel : BaseViewModel() {
+    /**
+     * 发现页可读写头部banners区数据
+     */
+    private var _bannersBean = MutableLiveData<ArrayList<BannersBean>>()
+    val bannersBean: LiveData<ArrayList<BannersBean>> = _bannersBean
 
     /**
      * 可读写发现头部数据
@@ -20,6 +41,40 @@ class DiscoverViewModel : ViewModel() {
     init {
 
     }
+
+    /**
+     *请求 发现页—活动 数据
+     */
+    fun requeryDiscover() {
+        NetClient.create().url(JKUrl.HOME_ACTIVITY)
+            .success(ISuccess { response: String? ->
+                if (filterErrorResponse(response)) {
+                    return@ISuccess
+                }
+
+                var dataBean: JKRespHeanBean = Gson().fromJson(response, JKRespHeanBean::class.java)
+
+                var banners = _bannersBean.value ?: arrayListOf()
+                for (banner in (dataBean.data.banners ?: arrayListOf())) {
+                    banners.add(BannersBean(banner.id, banner.img, banner.url, banner.is_login))
+                }
+                _bannersBean.value = banners
+
+                JKSPUtils.getInstance()
+                    .saveValue(JKSPUtils.JKSPKey.SP_KEY_APP_HOME_DISCOVER, response)
+                _headBeanData.value = dataBean.data
+                netNotifyLifeData.value = Notify2UILifeDataBean(0, "活动数据请求成功", JKUrl.HOME_ACTIVITY)
+            })
+            .failure {
+                netNotifyLifeData.value =
+                    Notify2UILifeDataBean(API_FAILURE, "网络异常，请检测网络！", JKUrl.HOME_ACTIVITY)
+            }
+            .error { code: Int, msg: String? ->
+                netNotifyLifeData.value =
+                    Notify2UILifeDataBean(API_ERROR, "服务器异常，请稍候重试", JKUrl.HOME_ACTIVITY)
+            }.build().get()
+    }
+
 
     //--------------------------------- 数据模拟
     /**

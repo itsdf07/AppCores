@@ -18,6 +18,10 @@ public enum ConfigKeys {
      */
     INTERCEPTOR,
     /**
+     * 请求头拦截器设置的公共参数
+     */
+    INTERCEPTOR_PARAMS_HEADER,
+    /**
      * 全局上下文
      */
     APPLICATION_CONTEXT,

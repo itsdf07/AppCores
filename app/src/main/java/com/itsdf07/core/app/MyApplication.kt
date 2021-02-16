@@ -1,17 +1,22 @@
 package com.itsdf07.core.app
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.itsdf07.core.app.jk.JKAppCacheCommon
+import com.itsdf07.core.app.jk.JKUrl
 import com.itsdf07.core.lib.alog.ALog
 import com.itsdf07.core.lib.alog.ALogLevel
 import com.itsdf07.core.lib.net.NetInit
+import com.itsdf07.core.lib.net.interceptor.IHeadParamsCallback
 import com.qq.e.comm.managers.GDTADManager
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.commonsdk.statistics.common.DeviceConfig
+import java.util.*
 
 
 /**
@@ -22,6 +27,9 @@ import com.umeng.commonsdk.statistics.common.DeviceConfig
  * @Date 2020/11/29
  */
 class MyApplication : Application(), LifecycleObserver {
+    companion object {
+        lateinit var mContext: Context
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackgrounded() {
@@ -35,8 +43,10 @@ class MyApplication : Application(), LifecycleObserver {
         ALog.i("APP 唤醒到前台")
     }
 
+
     override fun onCreate() {
         super.onCreate()
+        mContext = this
         ALog.init().apply {
             logLevel = ALogLevel.FULL
             tag = "tag-itsdf07"
@@ -47,21 +57,38 @@ class MyApplication : Application(), LifecycleObserver {
         initUmeng()
         initADGDT()
     }
+
     private fun initADGDT() {
         GDTADManager.getInstance().initWith(this, "1111479260")
     }
 
     private fun initNet() {
-        if (GlobalConfigs.is98Debug) {
-            NetInit.init(this)
-                .showLog(true)
-                .withApiHost(GlobalConfigs.BASE_URL_98)
-                .configure()
-        } else {
-            NetInit.init(this)
-                .withApiHost(GlobalConfigs.BASE_URL_LOCAL)
-                .configure()
-        }
+//        if (GlobalConfigs.is98Debug) {
+//            NetInit.init(this)
+//                .showLog(true)
+//                .withApiHost(GlobalConfigs.BASE_URL_98)
+//                .configure()
+//        } else {
+//            NetInit.init(this)
+//                .withApiHost(GlobalConfigs.BASE_URL_LOCAL)
+//                .configure()
+//        }
+
+
+        NetInit.init(this)
+            .withInterceptParams {
+                val header = HashMap<String, String>()
+                header["auth"] = "PIE 1.jhhwjsAxCmwRpthXXnVQhw"
+                header["platform"] = 2.toString() + ""
+                header["Content-Type"] = "application/json"
+                header["Accept-Encoding"] = "gzip"
+                header["version"] = "1.3.0"
+                header["channel"] = "umeng"
+                header
+            }
+            .showLog(true)
+            .withApiHost(JKUrl.BASE_URL)
+            .configure()
     }
 
     private fun initUmeng() {

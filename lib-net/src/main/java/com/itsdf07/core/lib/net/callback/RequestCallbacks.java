@@ -1,5 +1,7 @@
 package com.itsdf07.core.lib.net.callback;
 
+import android.util.Log;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -13,6 +15,7 @@ import retrofit2.Response;
  */
 
 public class RequestCallbacks<T> implements Callback<T> {
+    private static final String TAG = "JK_OKHTTP";
     private final IRequest REQUEST;
     private final ISuccess SUCCESS;
     private final IFailure FAILURE;
@@ -31,11 +34,13 @@ public class RequestCallbacks<T> implements Callback<T> {
         if (response.isSuccessful()) {
             if (call.isExecuted()) {//Call已经被执行了
                 if (SUCCESS != null) {
+                    Log.i(TAG, "onResponse-> response is success:body=" + response.body());
                     SUCCESS.onSuccess(response.body());
                 }
             }
         } else {
             if (ERROR != null) {
+                Log.i(TAG, "onResponse-> response is unsuccess:code=" + response.code() + ",msg=" + response.message());
                 ERROR.onError(response.code(), response.message());
             }
         }
@@ -46,6 +51,7 @@ public class RequestCallbacks<T> implements Callback<T> {
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
+        Log.i(TAG, "onResponse-> response is failure:err=" + t.getMessage());
         if (FAILURE != null) {
             FAILURE.onFailure();
         }

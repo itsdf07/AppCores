@@ -1,190 +1,208 @@
+package com.itsdf07.core.app.ui.fragment.home
+
+import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.Nullable
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.itsdf07.core.app.R
-import com.itsdf07.core.app.common.GridSpacingItemDecoration
-import com.itsdf07.core.app.common.utils.DeviceUtils
+import com.itsdf07.core.app.data.TabLayoutBean
+import com.itsdf07.core.app.jk.JKAppCacheCommon
+import com.itsdf07.core.lib.alog.ALog
 
-
+/**
+ * @Description: 首页
+ * @Author itsdf07
+ * @E-Mail 923255742@qq.com
+ * @Github https://github.com/itsdf07
+ * @Date 2021/2/15
+ */
 class HomeFragment : Fragment() {
 
+    companion object {
+        fun newInstance() = HomeFragment()
+    }
+
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var tabLayout: TabLayout
-    lateinit var tabViewPage: ViewPager
-    lateinit var root: View
 
-    private val tabs = arrayOf("推荐", "最新")
-    private val tabFragmentList = arrayListOf<Fragment>()
-
+    lateinit var rootView: View
 
     /**
-     * 头部金刚区
+     * TabLayout布局
      */
-    private lateinit var headBannersList: RecyclerView
-    private lateinit var headBannersAdapter: JKHeadBannersAdapter
+    private lateinit var tabLayoutIndicator: TabLayout
 
     /**
-     * 头部蛋蛋区
+     * ViewPager布局
      */
-    private lateinit var headEggsList: RecyclerView
-    private lateinit var headEggsAdapter: JKHeadEggsAdapter
+    private lateinit var tabViewPager: ViewPager
 
     /**
-     * 头部大图区（亦是活动区）
+     * ViewPager adapter
      */
-    private lateinit var headActivitysLis: RecyclerView
+    private lateinit var tabLayoutIndicatorAdapter: TabFragmentAdapter
 
     /**
-     * 头部方块区
+     * 签到
      */
-    private lateinit var headBlocksLis: RecyclerView
-    private lateinit var headBlocksAdapter: JKHeadBlocksAdapter
+    private lateinit var signActivityTheme: ImageView
 
+    /**
+     * 消息
+     */
+    private lateinit var ivMessageCommunity: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        root = inflater.inflate(R.layout.fragment_home, container, false)
-        return root
-    }
-
-    private fun initList() {
-        //添加tab
-
-        //添加tab
-        for (element in tabs) {
-            tabLayout.addTab(tabLayout.newTab().setText(element))
-        }
-        tabFragmentList.add(StaggeredGridFragment())
-        tabFragmentList.add(StaggeredGridFragment())
+        rootView = inflater.inflate(R.layout.fragment_home, container, false)
+        return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-        initHeadBlock()
-        initView()
-        initList()
-
+        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
+        initAllView()
+    }
+
+    private fun initAllView() {
+        initTab()
+
+        signActivityTheme = rootView.findViewById(R.id.sign_activity_theme)
+        updateSignActivity()
+        signActivityTheme.setOnClickListener {
+//            val intent = Intent(activity, WebActivity::class.java)
+//            intent.putExtra("url", JKAppCacheCommon.SIGN_URL_TARGET_URL_HOMG)
+//            activity!!.startActivity(intent)
+            Toast.makeText(context, "将会跳转到签到页面", Toast.LENGTH_SHORT).show()
+        }
+
+        ivMessageCommunity = rootView.findViewById(R.id.message_community)
+        Glide.with(this)
+            .load(JKAppCacheCommon.MESSAGE_COMMONITY_URL_BG_IMG)
+            .centerCrop()
+            .placeholder(R.mipmap.all_ico_message)
+            .into(ivMessageCommunity)
+        ivMessageCommunity.setOnClickListener {
+//            val intent = Intent(activity, PushMessageActivity::class.java)
+//            activity!!.startActivity(intent)
+            Toast.makeText(context, "将会跳转到消息页面", Toast.LENGTH_SHORT).show()
+        }
     }
 
     /**
-     * 初始化发现也头部相关UI
+     * 刷新与签到相关的UI
      */
-    private fun initHeadBlock() {
-        headBannersList = root.findViewById(R.id.banners_list)
-        headBannersList.itemAnimator = DefaultItemAnimator()
-        headBannersList.addItemDecoration(
-            GridSpacingItemDecoration(
-                2,
-                DeviceUtils.dp2px(context, 11f),
-                false
-            )
-        )
-        headBannersList.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        headBannersAdapter =
-            context?.let {
-                JKHeadBannersAdapter(
-                    it,
-                    homeViewModel.headBeanData.value!!.banners,
-                    R.layout.jk_item_home_head_banner
-                )
-            }!!
-        headBannersList.adapter = headBannersAdapter
-        //-----------------------------------------------------------
-
-        var column = homeViewModel.headBeanData.value!!.eggs.size
-        if (column > 5) {
-            column = 5
+    private fun updateSignActivity() {
+        signActivityTheme.visibility =
+            if (TextUtils.isEmpty(JKAppCacheCommon.SIGN_URL_BG_IMG_HOMG)) View.GONE else View.VISIBLE
+        if (signActivityTheme.visibility == View.VISIBLE) {
+            Glide.with(this)
+                .load(JKAppCacheCommon.SIGN_URL_BG_IMG_HOMG)
+                .placeholder(R.mipmap.main_ico_vip)
+                .error(R.mipmap.main_ico_vip)
+                .into(signActivityTheme)
         }
-        headEggsList = root.findViewById(R.id.eggs_list)
-        headEggsList.itemAnimator = DefaultItemAnimator()
-        headEggsList.addItemDecoration(
-            GridSpacingItemDecoration(
-                column,
-                DeviceUtils.dp2px(context, 11f),
-                false
-            )
-        )
-        headEggsList.layoutManager =
-            StaggeredGridLayoutManager(
-                column,
-                StaggeredGridLayoutManager.VERTICAL
-            )
-        headEggsAdapter =
-            context?.let {
-                JKHeadEggsAdapter(
-                    it,
-                    homeViewModel.headBeanData.value!!.eggs,
-                    R.layout.jk_item_home_head_egg
-                )
-            }!!
-        headEggsList.adapter = headEggsAdapter
-
-        //-----------------------------------------------------------
-        headBlocksLis = root.findViewById(R.id.blocks_list)
-        headBlocksLis.itemAnimator = DefaultItemAnimator()
-        headBlocksLis.addItemDecoration(
-            GridSpacingItemDecoration(
-                homeViewModel.headBeanData.value!!.eggs.size,
-                DeviceUtils.dp2px(context, 11f),
-                false
-            )
-        )
-        headBlocksLis.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        headBlocksAdapter =
-            context?.let {
-                JKHeadBlocksAdapter(
-                    it,
-                    homeViewModel.headBeanData.value!!.eggs,
-                    R.layout.jk_item_home_head_block
-                )
-            }!!
-        headBlocksLis.adapter = headBlocksAdapter
-
     }
 
 
-    private fun initView() {
-        tabLayout = root.findViewById(R.id.tab_layout)
-        tabViewPage = root.findViewById(R.id.view_pager)
+    private fun initTab() {
+        tabLayoutIndicator = rootView.findViewById(R.id.tab_indicator)
+        val tabs: List<TabLayoutBean> = homeViewModel.tabs.value!!
 
-
-        tabViewPage.adapter = object : FragmentPagerAdapter(
+        //TabLayout添加自定义tab Item布局视图
+//        for (tabLayoutBean in tabs) {
+//            tabLayoutIndicator.addTab(getTabView(tabLayoutBean.tabTitle))
+//        }
+        tabViewPager = rootView.findViewById(R.id.vp_tab_pager)
+        tabLayoutIndicatorAdapter = TabFragmentAdapter(
             childFragmentManager,
-            BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-        ) {
-            override fun getItem(position: Int): Fragment {
-                return tabFragmentList[position]
+            FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
+            homeViewModel.tabs.value!!
+        )
+        tabViewPager.adapter = tabLayoutIndicatorAdapter
+        tabLayoutIndicator.setupWithViewPager(tabViewPager)
+
+        tabLayoutIndicator.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                ALog.i("onTabReselected->TabLayout二次点击了 ${tab?.text}")
+                tab.customView?.findViewById<View>(R.id.tab_indicator_line)?.visibility =
+                    View.VISIBLE
             }
 
-            override fun getCount(): Int {
-                return tabs.size
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                ALog.i("onTabUnselected->TabLayout的 ${tab?.text} 脱离了选中状态")
+                tab.customView?.findViewById<View>(R.id.tab_indicator_line)?.visibility =
+                    View.INVISIBLE
             }
 
-            @Nullable
-            override fun getPageTitle(position: Int): CharSequence? {
-                return tabs[position]
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                ALog.i("onTabSelected->TabLayout选中了 ${tab?.text}")
+                tab.customView?.findViewById<View>(R.id.tab_indicator_line)?.visibility =
+                    View.VISIBLE
             }
+
+        })
+
+        tabViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                ALog.i("position:${position}")
+//                tabViewPager.currentItem = position
+//                selectIndex = position
+            }
+
+            /**
+             * @param state 0-静止状态，1-滑动中，2-滑动结束
+             */
+            override fun onPageScrollStateChanged(state: Int) {
+                ALog.i("state:${state}")
+            }
+        })
+        for (index in tabs.indices) {
+            resetTabViews(index, tabs[index].tabTitle)
         }
-        tabViewPage.currentItem = 0
-//        tabLayout.setupWithViewPager(tabViewPage)
+        tabViewPager.currentItem = 0
+
     }
+
+    private fun getTabView(title: String): TabLayout.Tab {
+        var tab: TabLayout.Tab = tabLayoutIndicator.newTab()
+        val tabItem = LayoutInflater.from(context).inflate(R.layout.item_tab_home, null)
+        val txtTitle: TextView = tabItem.findViewById(R.id.title_name)
+        txtTitle.text = title
+        tab.customView = tabItem
+        return tab
+    }
+
+    private fun resetTabViews(position: Int, title: String) {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_tab_home, null)
+        val txtTitle: TextView = view.findViewById(R.id.title_name)
+        txtTitle.text = title
+        var tabLayout: TabLayout.Tab = tabLayoutIndicator.getTabAt(position)!!
+        tabLayout.customView = view
+        if (position == 0) {
+            tabLayout.select()
+        }
+    }
+
 }

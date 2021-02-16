@@ -1,5 +1,6 @@
 package com.itsdf07.core.app.ui.navibar
 
+import com.itsdf07.core.app.ui.fragment.home.DiscoverFragment
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.itsdf07.core.app.R
 import com.itsdf07.core.app.common.widget.navibar.EasyNavigationBar
+import com.itsdf07.core.app.ui.fragment.home.HomeFragment
 import com.itsdf07.core.app.ui.fragment.normal.*
 import java.util.*
 
@@ -23,12 +25,10 @@ class MainNaviBarActivity : AppCompatActivity() {
         arrayOf("首页", "我的")// "发现", "消息",
 
     //未选中icon
-    private val normalIcon =
-        intArrayOf(R.mipmap.tabbar_main_normal, R.mipmap.tabbar_mine_normal)
+    private val normalIcon = intArrayOf(R.mipmap.tabbar_main_normal, R.mipmap.tabbar_mine_normal)
 
     //选中时icon
-    private val selectIcon =
-        intArrayOf(R.mipmap.tabbar_main_actived, R.mipmap.tabbar_mine_actived)
+    private val selectIcon = intArrayOf(R.mipmap.tabbar_main_actived, R.mipmap.tabbar_mine_actived)
     private val fragments: ArrayList<Fragment> = ArrayList()
     private val mHandler = Handler()
     private var flag = true
@@ -36,7 +36,7 @@ class MainNaviBarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navi_bar)
         navigationBar = findViewById(R.id.navigationBar)
-        fragments.add(AFragment())
+        fragments.add(HomeFragment())
         fragments.add(BFragment())
 //        fragments.add(CFragment())
 //        fragments.add(DFragment())

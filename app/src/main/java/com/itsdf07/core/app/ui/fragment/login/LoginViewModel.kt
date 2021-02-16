@@ -1,6 +1,6 @@
 package com.itsdf07.core.app.ui.fragment.login
 
-import HomeFragment
+import com.itsdf07.core.app.ui.fragment.home.DiscoverFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -57,7 +57,7 @@ class LoginViewModel() : ViewModel() {
         })
         fragments.value!!.add(TabLayoutBean().apply {
             tabTitle = "注册"
-            fragment = HomeFragment()
+            fragment = DiscoverFragment()
         })
 
         return fragments

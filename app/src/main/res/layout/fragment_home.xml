@@ -1,47 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:background="#FFFFFF"
+    android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
-
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:statusBarScrim="@android:color/transparent">
-
-            <include layout="@layout/layout_home_header" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
+        android:layout_height="44dp">
+        <!--首页活动主题：签到-->
+        <ImageView
+            android:id="@+id/sign_activity_theme"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="13dp"
+            android:scaleType="fitXY"
+            tools:src="@mipmap/main_ico_vip" />
+        <!--社区消息：消息-->
+        <ImageView
+            android:id="@+id/message_community"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="13dp"
+            android:src="@mipmap/all_ico_message" />
+        <!--发现、好友-->
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
+            android:id="@+id/tab_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_centerInParent="true"
+            app:tabIndicatorColor="@color/transparent"
+            app:tabIndicatorFullWidth="false"
+            app:tabMode="fixed"
+            app:tabPadding="0dp"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabTextColor="#323232" />
+    </RelativeLayout>
+    <!--装载发现、好友等页面-->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_tab_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </androidx.core.widget.NestedScrollView>
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:overScrollMode="never" />
+</LinearLayout>

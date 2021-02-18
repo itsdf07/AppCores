@@ -55,6 +55,7 @@ class DiscoverViewModel : BaseViewModel() {
                 var dataBean: JKRespHeanBean = Gson().fromJson(response, JKRespHeanBean::class.java)
 
                 var banners = _bannersBean.value ?: arrayListOf()
+                banners.clear()
                 for (banner in (dataBean.data.banners ?: arrayListOf())) {
                     banners.add(BannersBean(banner.id, banner.img, banner.url, banner.is_login))
                 }

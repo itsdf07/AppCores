@@ -11,9 +11,6 @@
         android:id="@+id/banners_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="15dp"
         android:overScrollMode="never" />
     <!--发现页头部蛋蛋区（eggs）列表，如样机、色卡、教程块-->
     <androidx.recyclerview.widget.RecyclerView

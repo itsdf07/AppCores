@@ -16,7 +16,7 @@ import com.itsdf07.core.app.ui.fragment.home.bean.JKRespHeanBean
  * @Github https://github.com/itsdf07
  * @Date 2021/1/20
  */
-class JKHeadEggsAdapter(
+class DiscoverEggsAdapter(
     context: Context,
     var datas: List<JKRespHeanBean.DataBean.EggsBean>,
     layout: Int

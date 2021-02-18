@@ -88,7 +88,7 @@ public class NavigationUtil {
         RoundRectShape roundRect = new RoundRectShape(radiusArray, null, null);
         ShapeDrawable bgDrawable = new ShapeDrawable(roundRect);
         bgDrawable.getPaint().setColor(badgeColor);
-        view.setBackgroundDrawable(bgDrawable);
+        view.setBackground(bgDrawable);
     }
 
     public static void setOvalBg(View view, int bgColor) {
@@ -97,7 +97,7 @@ public class NavigationUtil {
         drawable.getPaint().setColor(bgColor);
         drawable.getPaint().setAntiAlias(true);
         drawable.getPaint().setStyle(Paint.Style.FILL);
-        view.setBackgroundDrawable(drawable);
+        view.setBackground(drawable);
     }
 
 

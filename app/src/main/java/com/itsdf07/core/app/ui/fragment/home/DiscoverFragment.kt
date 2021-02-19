@@ -4,13 +4,16 @@ import DiscoverActivitysAdapter
 import DiscoverBannersAdapter
 import DiscoverEggsAdapter
 import DiscoverBlocksAdapter
+import DiscoverTopicsAdapter
 import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -84,6 +87,13 @@ class DiscoverFragment : Fragment() {
     private lateinit var headBlocksLis: RecyclerView
     private lateinit var headBlocksAdapter: DiscoverBlocksAdapter
 
+    /**
+     * 热门话题
+     */
+    lateinit var headTopicTip: TextView
+    private lateinit var headTopicsList: RecyclerView
+    private lateinit var headTopicsAdapter: DiscoverTopicsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -113,6 +123,9 @@ class DiscoverFragment : Fragment() {
         })
         discoverViewModel.blocksBean.observe(requireActivity(), Observer {
             updateBlocksUI(it)
+        })
+        discoverViewModel.topicsBean.observe(requireActivity(), Observer {
+            updateTopicsUI(it)
         })
 
 
@@ -264,6 +277,41 @@ class DiscoverFragment : Fragment() {
             R.layout.jk_item_home_head_block
         )
         headBlocksLis.adapter = headBlocksAdapter
+
+        //话题区
+        headTopicTip = rootView.findViewById(R.id.topic_title_tip)
+        headTopicsList = rootView.findViewById(R.id.hots_list)
+        headTopicsList.addItemDecoration(object : UniversalItemDecoration() {
+            override fun getItemOffsets(position: Int): Decoration? {
+                val decoration = ColorDecoration()
+                decoration.decorationColor = Color.TRANSPARENT
+                if (position < 2) {
+                    decoration.top = 0
+                } else {
+                    decoration.top = DeviceUtils.dp2px(requireContext(), 15f)
+                }
+
+                decoration.bottom = 0
+                if (position % 2 == 0) {//第一行的第一列，通用的话可以使用position % 2 == 0
+                    decoration.left = 0
+                    decoration.right = DeviceUtils.dp2px(requireContext(), 5.5f)
+                } else {//第一行的第二列，通用的话可以使用position % 2 == 1
+                    decoration.left = DeviceUtils.dp2px(requireContext(), 5.5f)
+                    decoration.right = 0
+                }
+                return decoration
+            }
+        })
+
+        headTopicsList.layoutManager =
+            GridLayoutManager(requireContext(), 2)
+        headTopicsAdapter = DiscoverTopicsAdapter(
+            this,
+            discoverViewModel.topicsBean.value ?: arrayListOf(),
+            R.layout.jk_item_home_head_topic
+        )
+        headTopicsList.adapter = headTopicsAdapter
+
     }
 
     private fun updateBannersUI(banners: ArrayList<BannersBean>) {
@@ -342,6 +390,21 @@ class DiscoverFragment : Fragment() {
         }
         headBlocksLis.visibility = View.VISIBLE
         headBlocksAdapter.updateData(blocks)
+    }
+
+    private fun updateTopicsUI(topics: ArrayList<TopicsBean>) {
+        if (topics == null || topics.size == 0) {
+            headTopicTip.visibility = View.GONE
+            headTopicsList.visibility = View.GONE
+            return
+        }
+        if (TextUtils.isEmpty(discoverViewModel.topicsTip.value)) {
+            headTopicTip.visibility = View.GONE
+        } else {
+            headTopicTip.visibility = View.VISIBLE
+        }
+        headTopicsList.visibility = View.VISIBLE
+        headTopicsAdapter.updateData(topics)
     }
 
 

@@ -65,12 +65,12 @@
         android:overScrollMode="never" />
 
     <TextView
-        android:id="@+id/hots_title_tip"
-        android:layout_width="wrap_content"
+        android:id="@+id/topic_title_tip"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-medium"
+        android:paddingLeft="15dp"
         android:text="热门话题"
         android:textColor="#323232"
         android:textSize="16dp" />

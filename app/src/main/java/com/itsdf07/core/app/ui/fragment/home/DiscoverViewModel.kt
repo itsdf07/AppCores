@@ -44,10 +44,23 @@ class DiscoverViewModel : BaseViewModel() {
     val turnsBean: LiveData<ArrayList<TurnsBean>> = _turnsBean
 
     /**
-     * 发现页可读写头部turns区数据
+     * 发现页可读写头部blocks区数据
      */
     private var _blocksBean = MutableLiveData<ArrayList<BlocksBean>>()
     val blocksBean: LiveData<ArrayList<BlocksBean>> = _blocksBean
+
+
+    /**
+     * 发现页可读写头部话题区标题数据
+     */
+    private var _topicsTip = MutableLiveData<String>()
+    val topicsTip: LiveData<String> = _topicsTip
+
+    /**
+     * 发现页可读写头部turns区数据
+     */
+    private var _topicsBean = MutableLiveData<ArrayList<TopicsBean>>()
+    val topicsBean: LiveData<ArrayList<TopicsBean>> = _topicsBean
 
     /**
      * 可读写发现头部数据
@@ -123,6 +136,7 @@ class DiscoverViewModel : BaseViewModel() {
                 }
                 _turnsBean.value = turns
 
+                //方块区数据
                 var blocks = _blocksBean.value ?: arrayListOf()
                 blocks.clear()
                 for (block in (dataBean.data.blocks ?: arrayListOf())) {
@@ -137,6 +151,15 @@ class DiscoverViewModel : BaseViewModel() {
                     )
                 }
                 _blocksBean.value = blocks
+
+                //热门话题区数据
+                _topicsTip.value = dataBean.data.topic_title
+                var topics = _topicsBean.value ?: arrayListOf()
+                topics.clear()
+                for (topic in (dataBean.data.topics ?: arrayListOf())) {
+                    topics.add(TopicsBean(topic.name, topic.icon, topic.tag, topic.num))
+                }
+                _topicsBean.value = topics
 
                 JKSPUtils.getInstance()
                     .saveValue(JKSPUtils.JKSPKey.SP_KEY_APP_HOME_DISCOVER, response)

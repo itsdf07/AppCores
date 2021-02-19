@@ -292,6 +292,7 @@ class DiscoverFragment : Fragment() {
             return
         }
         layoutTurns.visibility = View.VISIBLE
+        initTurnsIndicator(turns)
         turnsAdapter.setData(turns)
     }
 

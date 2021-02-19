@@ -44,6 +44,12 @@ class DiscoverViewModel : BaseViewModel() {
     val turnsBean: LiveData<ArrayList<TurnsBean>> = _turnsBean
 
     /**
+     * 发现页可读写头部turns区数据
+     */
+    private var _blocksBean = MutableLiveData<ArrayList<BlocksBean>>()
+    val blocksBean: LiveData<ArrayList<BlocksBean>> = _blocksBean
+
+    /**
      * 可读写发现头部数据
      */
     private val _headBeanData = MutableLiveData<JKRespHeanBean.DataBean>().apply {
@@ -116,6 +122,21 @@ class DiscoverViewModel : BaseViewModel() {
                     )
                 }
                 _turnsBean.value = turns
+
+                var blocks = _blocksBean.value ?: arrayListOf()
+                blocks.clear()
+                for (block in (dataBean.data.blocks ?: arrayListOf())) {
+                    blocks.add(
+                        BlocksBean(
+                            block.id,
+                            block.title,
+                            block.img,
+                            block.url,
+                            block.is_login
+                        )
+                    )
+                }
+                _blocksBean.value = blocks
 
                 JKSPUtils.getInstance()
                     .saveValue(JKSPUtils.JKSPKey.SP_KEY_APP_HOME_DISCOVER, response)

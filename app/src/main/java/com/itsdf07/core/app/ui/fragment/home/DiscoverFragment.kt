@@ -3,6 +3,7 @@ package com.itsdf07.core.app.ui.fragment.home
 import DiscoverActivitysAdapter
 import DiscoverBannersAdapter
 import DiscoverEggsAdapter
+import DiscoverBlocksAdapter
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,10 +24,7 @@ import com.itsdf07.core.app.common.UniversalItemDecoration
 import com.itsdf07.core.app.common.utils.DeviceUtils
 import com.itsdf07.core.app.common.widget.SlideViewPager
 import com.itsdf07.core.app.jk.JKUrl
-import com.itsdf07.core.app.ui.fragment.home.bean.ActivitysBean
-import com.itsdf07.core.app.ui.fragment.home.bean.BannersBean
-import com.itsdf07.core.app.ui.fragment.home.bean.EggsBean
-import com.itsdf07.core.app.ui.fragment.home.bean.TurnsBean
+import com.itsdf07.core.app.ui.fragment.home.bean.*
 import com.itsdf07.core.lib.alog.ALog
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -80,6 +78,12 @@ class DiscoverFragment : Fragment() {
     private lateinit var turnsAdapter: DiscoverTurnsAdapter
     private lateinit var turnsIndicator: LinearLayout
 
+    /**
+     * 头部方块区
+     */
+    private lateinit var headBlocksLis: RecyclerView
+    private lateinit var headBlocksAdapter: DiscoverBlocksAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -107,6 +111,10 @@ class DiscoverFragment : Fragment() {
         discoverViewModel.turnsBean.observe(requireActivity(), Observer {
             updateTurnsUI(it)
         })
+        discoverViewModel.blocksBean.observe(requireActivity(), Observer {
+            updateBlocksUI(it)
+        })
+
 
         discoverViewModel.netNotifyLifeData.observe(viewLifecycleOwner, Observer {
             when (it.requestUrl) {
@@ -133,9 +141,9 @@ class DiscoverFragment : Fragment() {
                 val decoration = ColorDecoration()
                 decoration.decorationColor = Color.TRANSPARENT;
                 if (position < 2) {//列表的索引1和2，目的是绘制列表顶部分割线高度
-                    decoration.top = DeviceUtils.dp2px(requireContext(), 20f)
+                    decoration.top = 0
                 } else {
-                    decoration.top = DeviceUtils.dp2px(requireContext(), 10f)
+                    decoration.top = DeviceUtils.dp2px(requireContext(), 20f)
                 }
                 if (position % 2 == 0) {//第一行的第一列，通用的话可以使用position % 2 == 0
                     decoration.left = DeviceUtils.dp2px(requireContext(), 15f)
@@ -177,8 +185,12 @@ class DiscoverFragment : Fragment() {
         headActivitysList.addItemDecoration(object : UniversalItemDecoration() {
             override fun getItemOffsets(position: Int): Decoration? {
                 val decoration = ColorDecoration()
-                decoration.decorationColor = Color.TRANSPARENT;
-                decoration.top = DeviceUtils.dp2px(requireContext(), 20f)
+                decoration.decorationColor = Color.TRANSPARENT
+                if (position == 0) {
+                    decoration.top = 0
+                } else {
+                    decoration.top = DeviceUtils.dp2px(requireContext(), 20f)
+                }
                 decoration.bottom = 0
                 decoration.left = DeviceUtils.dp2px(requireContext(), 15f)
                 decoration.right = DeviceUtils.dp2px(requireContext(), 15f)
@@ -225,6 +237,33 @@ class DiscoverFragment : Fragment() {
 
         })
         turnsViewPager.setCurrentItem(0, false)
+
+        //方块区
+        headBlocksLis = rootView.findViewById(R.id.blocks_list)
+        headBlocksLis.addItemDecoration(object : UniversalItemDecoration() {
+            override fun getItemOffsets(position: Int): Decoration? {
+                val decoration = ColorDecoration()
+                decoration.decorationColor = Color.TRANSPARENT;
+                decoration.top = 0
+                decoration.bottom = 0
+                decoration.right = DeviceUtils.dp2px(requireContext(), 15f)
+                if (position == 0) {
+                    decoration.left = DeviceUtils.dp2px(requireContext(), 15f)
+                } else {
+                    decoration.left = 0
+                }
+                return decoration
+            }
+        })
+
+        headBlocksLis.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        headBlocksAdapter = DiscoverBlocksAdapter(
+            this,
+            discoverViewModel.blocksBean.value ?: arrayListOf(),
+            R.layout.jk_item_home_head_block
+        )
+        headBlocksLis.adapter = headBlocksAdapter
     }
 
     private fun updateBannersUI(banners: ArrayList<BannersBean>) {
@@ -251,7 +290,7 @@ class DiscoverFragment : Fragment() {
             override fun getItemOffsets(position: Int): Decoration? {
                 val decoration = ColorDecoration()
                 decoration.decorationColor = Color.TRANSPARENT;
-                decoration.top = DeviceUtils.dp2px(requireContext(), 20f)
+                decoration.top = 0
                 decoration.bottom = 0
                 if (position == 0) {//列表的索引1和2，目的是绘制列表顶部分割线高度
                     decoration.left = DeviceUtils.dp2px(requireContext(), 5f)
@@ -294,6 +333,15 @@ class DiscoverFragment : Fragment() {
         layoutTurns.visibility = View.VISIBLE
         initTurnsIndicator(turns)
         turnsAdapter.setData(turns)
+    }
+
+    private fun updateBlocksUI(blocks: ArrayList<BlocksBean>) {
+        if (blocks == null || blocks.size == 0) {
+            headBlocksLis.visibility = View.GONE
+            return
+        }
+        headBlocksLis.visibility = View.VISIBLE
+        headBlocksAdapter.updateData(blocks)
     }
 
 

@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,10 +21,13 @@ import com.google.android.material.tabs.TabLayout
 import com.itsdf07.core.app.R
 import com.itsdf07.core.app.common.UniversalItemDecoration
 import com.itsdf07.core.app.common.utils.DeviceUtils
+import com.itsdf07.core.app.common.widget.SlideViewPager
 import com.itsdf07.core.app.jk.JKUrl
 import com.itsdf07.core.app.ui.fragment.home.bean.ActivitysBean
 import com.itsdf07.core.app.ui.fragment.home.bean.BannersBean
 import com.itsdf07.core.app.ui.fragment.home.bean.EggsBean
+import com.itsdf07.core.app.ui.fragment.home.bean.TurnsBean
+import com.itsdf07.core.lib.alog.ALog
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
@@ -67,6 +72,14 @@ class DiscoverFragment : Fragment() {
     private lateinit var headActivitysList: RecyclerView
     private lateinit var headActivitysAdapter: DiscoverActivitysAdapter
 
+    /**
+     * 轮播图区域
+     */
+    private lateinit var layoutTurns: RelativeLayout
+    private lateinit var turnsViewPager: SlideViewPager
+    private lateinit var turnsAdapter: DiscoverTurnsAdapter
+    private lateinit var turnsIndicator: LinearLayout
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -89,6 +102,10 @@ class DiscoverFragment : Fragment() {
         })
         discoverViewModel.activitysBean.observe(requireActivity(), Observer {
             updateActivitysUI(it)
+        })
+
+        discoverViewModel.turnsBean.observe(requireActivity(), Observer {
+            updateTurnsUI(it)
         })
 
         discoverViewModel.netNotifyLifeData.observe(viewLifecycleOwner, Observer {
@@ -175,7 +192,39 @@ class DiscoverFragment : Fragment() {
             R.layout.jk_item_home_head_activity
         )
         headActivitysList.adapter = headActivitysAdapter
+        //轮播区
+        layoutTurns = rootView.findViewById(R.id.layout_slides)
+        turnsViewPager = rootView.findViewById(R.id.slides_list)
+        turnsIndicator = rootView.findViewById(R.id.slides_indicator)
 
+        turnsViewPager.setOnViewPagerTouchListen {
+            ALog.v("setOnViewPagerTouchListen:$it")
+        }
+
+        turnsAdapter = DiscoverTurnsAdapter(this)
+        turnsViewPager.adapter = turnsAdapter
+        turnsAdapter.setData(discoverViewModel.turnsBean.value ?: arrayListOf())
+        turnsViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                var realPosition = 0
+                if (turnsAdapter.dataRealSize !== 0) {
+                    realPosition = position % turnsAdapter!!.dataRealSize
+                }
+                selectedPoint(realPosition)
+            }
+
+        })
+        turnsViewPager.setCurrentItem(0, false)
     }
 
     private fun updateBannersUI(banners: ArrayList<BannersBean>) {
@@ -235,6 +284,55 @@ class DiscoverFragment : Fragment() {
         }
         headActivitysList.visibility = View.VISIBLE
         headActivitysAdapter.updateData(activitys)
+    }
+
+    private fun updateTurnsUI(turns: ArrayList<TurnsBean>) {
+        if (turns == null || turns.size == 0) {
+            layoutTurns.visibility = View.GONE
+            return
+        }
+        layoutTurns.visibility = View.VISIBLE
+        turnsAdapter.setData(turns)
+    }
+
+
+    /**
+     * 轮播区页码指示器状态UI
+     */
+    private fun selectedPoint(realPosition: Int) {
+        for (i in 0 until turnsIndicator.childCount) {
+            val point: View = turnsIndicator.getChildAt(i)
+            if (i == realPosition) {
+                point.setBackgroundResource(R.drawable.shape_point_selected)
+            } else {
+                point.setBackgroundResource(R.drawable.shape_point_normal)
+            }
+        }
+    }
+
+    /**
+     * 初始轮播区页码指示器UI
+     */
+    private fun initTurnsIndicator(turns: ArrayList<TurnsBean>) {
+        if (turns == null) {
+            return
+        }
+        turnsIndicator.removeAllViews()
+        for (i in 0 until turns.size) {
+            val point = View(context)
+            if (i == 0) {
+                point.setBackgroundResource(R.drawable.shape_point_selected)
+            } else {
+                point.setBackgroundResource(R.drawable.shape_point_normal)
+            }
+            val params = LinearLayout.LayoutParams(
+                DeviceUtils.dp2px(context, 6f),
+                DeviceUtils.dp2px(context, 6f)
+            )
+            params.leftMargin = DeviceUtils.dp2px(context, 6f)
+            point.layoutParams = params
+            turnsIndicator.addView(point)
+        }
     }
 
     private val onRefreshListener = OnRefreshListener {

@@ -35,6 +35,12 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="15dp">
+        <!--发现页头部轮播（slides）列表模块-->
+        <com.itsdf07.core.app.common.widget.SlideViewPager
+            android:id="@+id/slides_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
 
         <LinearLayout
             android:id="@+id/slides_indicator"

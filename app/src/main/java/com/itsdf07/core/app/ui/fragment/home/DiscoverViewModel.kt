@@ -5,10 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.itsdf07.core.app.jk.JKSPUtils
 import com.itsdf07.core.app.jk.JKUrl
-import com.itsdf07.core.app.ui.fragment.home.bean.ActivitysBean
-import com.itsdf07.core.app.ui.fragment.home.bean.BannersBean
-import com.itsdf07.core.app.ui.fragment.home.bean.EggsBean
-import com.itsdf07.core.app.ui.fragment.home.bean.JKRespHeanBean
+import com.itsdf07.core.app.ui.fragment.home.bean.*
 import com.itsdf07.core.app.ui.vm.BaseViewModel
 import com.itsdf07.core.app.ui.vm.Notify2UILifeDataBean
 import com.itsdf07.core.lib.net.callback.ISuccess
@@ -39,6 +36,12 @@ class DiscoverViewModel : BaseViewModel() {
      */
     private var _activitysBean = MutableLiveData<ArrayList<ActivitysBean>>()
     val activitysBean: LiveData<ArrayList<ActivitysBean>> = _activitysBean
+
+    /**
+     * 发现页可读写头部turns区数据
+     */
+    private var _turnsBean = MutableLiveData<ArrayList<TurnsBean>>()
+    val turnsBean: LiveData<ArrayList<TurnsBean>> = _turnsBean
 
     /**
      * 可读写发现头部数据
@@ -98,6 +101,21 @@ class DiscoverViewModel : BaseViewModel() {
                     )
                 }
                 _activitysBean.value = activitys
+
+                //轮播区数据
+                var turns = _turnsBean.value ?: arrayListOf()
+                turns.clear()
+                for (turn in (dataBean.data.turns ?: arrayListOf())) {
+                    turns.add(
+                        TurnsBean(
+                            turn.id,
+                            turn.img,
+                            turn.url,
+                            turn.is_login
+                        )
+                    )
+                }
+                _turnsBean.value = turns
 
                 JKSPUtils.getInstance()
                     .saveValue(JKSPUtils.JKSPKey.SP_KEY_APP_HOME_DISCOVER, response)

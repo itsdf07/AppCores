@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.itsdf07.core.app.jk.JKSPUtils
 import com.itsdf07.core.app.jk.JKUrl
 import com.itsdf07.core.app.ui.fragment.home.bean.BannersBean
+import com.itsdf07.core.app.ui.fragment.home.bean.EggsBean
 import com.itsdf07.core.app.ui.fragment.home.bean.JKRespHeanBean
 import com.itsdf07.core.app.ui.vm.BaseViewModel
 import com.itsdf07.core.app.ui.vm.Notify2UILifeDataBean
@@ -25,6 +26,12 @@ class DiscoverViewModel : BaseViewModel() {
      */
     private var _bannersBean = MutableLiveData<ArrayList<BannersBean>>()
     val bannersBean: LiveData<ArrayList<BannersBean>> = _bannersBean
+
+    /**
+     * 发现页可读写头部eggs区数据
+     */
+    private var _eggsBean = MutableLiveData<ArrayList<EggsBean>>()
+    val eggsBean: LiveData<ArrayList<EggsBean>> = _eggsBean
 
     /**
      * 可读写发现头部数据
@@ -54,12 +61,22 @@ class DiscoverViewModel : BaseViewModel() {
 
                 var dataBean: JKRespHeanBean = Gson().fromJson(response, JKRespHeanBean::class.java)
 
+                //金刚区数据
                 var banners = _bannersBean.value ?: arrayListOf()
                 banners.clear()
                 for (banner in (dataBean.data.banners ?: arrayListOf())) {
                     banners.add(BannersBean(banner.id, banner.img, banner.url, banner.is_login))
                 }
                 _bannersBean.value = banners
+
+                //蛋蛋区数据
+                var eggs = _eggsBean.value ?: arrayListOf()
+                eggs.clear()
+                for (egg in (dataBean.data.eggs ?: arrayListOf())) {
+                    eggs.add(EggsBean(egg.id, egg.title, egg.img, egg.url, egg.is_login))
+                }
+                _eggsBean.value = eggs
+
 
                 JKSPUtils.getInstance()
                     .saveValue(JKSPUtils.JKSPKey.SP_KEY_APP_HOME_DISCOVER, response)

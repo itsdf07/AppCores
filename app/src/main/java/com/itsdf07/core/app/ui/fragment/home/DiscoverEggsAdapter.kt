@@ -1,5 +1,4 @@
-
-import android.content.Context
+import android.text.TextUtils
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -7,6 +6,10 @@ import com.bumptech.glide.Glide
 import com.itsdf07.core.app.R
 import com.itsdf07.core.app.common.adapter.BaseRecyclerViewAdapter
 import com.itsdf07.core.app.common.adapter.BaseViewHolder
+import com.itsdf07.core.app.jk.JKAppCacheCommon
+import com.itsdf07.core.app.ui.fragment.home.DiscoverFragment
+import com.itsdf07.core.app.ui.fragment.home.bean.BannersBean
+import com.itsdf07.core.app.ui.fragment.home.bean.EggsBean
 import com.itsdf07.core.app.ui.fragment.home.bean.JKRespHeanBean
 
 /**
@@ -17,41 +20,30 @@ import com.itsdf07.core.app.ui.fragment.home.bean.JKRespHeanBean
  * @Date 2021/1/20
  */
 class DiscoverEggsAdapter(
-    context: Context,
-    var datas: List<JKRespHeanBean.DataBean.EggsBean>,
+    var fragment: DiscoverFragment,
+    datas: ArrayList<EggsBean>,
     layout: Int
-) : BaseRecyclerViewAdapter<JKRespHeanBean.DataBean.EggsBean>(context, datas, layout) {
-
-    override fun getItemCount(): Int {
-        if (datas != null && datas.size > 5) {
-            return 5
-        }
-        return super.getItemCount()
-    }
+) : BaseRecyclerViewAdapter<EggsBean>(fragment.requireContext(), datas, layout) {
 
     override fun bindData(
         holder: BaseViewHolder,
-        data: JKRespHeanBean.DataBean.EggsBean,
+        data: EggsBean,
         position: Int
     ) {
         var eggItemIcon: ImageView = holder.getView(R.id.iv_item_egg_ic)
         Glide.with(context)
             .load(data.img)
-            .placeholder(R.mipmap.main_ico_yangji)
+            .placeholder(R.mipmap.all_img_card_default)
             .into(eggItemIcon)
-//        Glide.with(context)
-//            .load(data.img)
-//            .apply(
-//                RequestOptions.circleCropTransform()
-//                    //通过缓存键检查是否更新
-//                    .placeholder(R.mipmap.main_ico_yangji)
-//                    .error(R.mipmap.main_ico_yangji)
-//            )
-//            .into(eggItemIcon)
         var eggItemTitle: TextView = holder.getView(R.id.iv_item_egg_title)
         eggItemTitle.text = data.title
         holder.itemView.setOnClickListener {
-            Toast.makeText(context, "跳转至${data.url}", Toast.LENGTH_SHORT).show()
+            if (data.isLogin == 1 && TextUtils.isEmpty(JKAppCacheCommon.APP_USER_AUTH)) {
+                Toast.makeText(context, "当前需求登录，并且当前用户未登录", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "跳转", Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 }

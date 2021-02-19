@@ -13,7 +13,7 @@ import com.itsdf07.core.app.ui.fragment.home.bean.EggsBean
 import com.itsdf07.core.app.ui.fragment.home.bean.JKRespHeanBean
 
 /**
- * @Description: 发现页头部蛋蛋区（eggs）对应适配器
+ * @Description: 首页-发现-吸顶部分蛋蛋区（eggs）对应适配器
  * @Author itsdf07
  * @E-Mail 923255742@qq.com
  * @Github https://github.com/itsdf07

@@ -1,5 +1,6 @@
 package com.itsdf07.core.app.ui.fragment.home
 
+import DiscoverActivitysAdapter
 import DiscoverBannersAdapter
 import DiscoverEggsAdapter
 import android.graphics.Color
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
@@ -18,6 +20,7 @@ import com.itsdf07.core.app.R
 import com.itsdf07.core.app.common.UniversalItemDecoration
 import com.itsdf07.core.app.common.utils.DeviceUtils
 import com.itsdf07.core.app.jk.JKUrl
+import com.itsdf07.core.app.ui.fragment.home.bean.ActivitysBean
 import com.itsdf07.core.app.ui.fragment.home.bean.BannersBean
 import com.itsdf07.core.app.ui.fragment.home.bean.EggsBean
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -58,6 +61,12 @@ class DiscoverFragment : Fragment() {
     private lateinit var headEggsList: RecyclerView
     private lateinit var headEggsAdapter: DiscoverEggsAdapter
 
+    /**
+     * 头部大图区
+     */
+    private lateinit var headActivitysList: RecyclerView
+    private lateinit var headActivitysAdapter: DiscoverActivitysAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -77,6 +86,9 @@ class DiscoverFragment : Fragment() {
         })
         discoverViewModel.eggsBean.observe(requireActivity(), Observer {
             updateEggsUI(it)
+        })
+        discoverViewModel.activitysBean.observe(requireActivity(), Observer {
+            updateActivitysUI(it)
         })
 
         discoverViewModel.netNotifyLifeData.observe(viewLifecycleOwner, Observer {
@@ -140,6 +152,30 @@ class DiscoverFragment : Fragment() {
             R.layout.jk_item_home_head_egg
         )
         headEggsList.adapter = headEggsAdapter
+
+        //大图区
+        headActivitysList = rootView.findViewById(R.id.activitys_list)
+        val layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        headActivitysList.addItemDecoration(object : UniversalItemDecoration() {
+            override fun getItemOffsets(position: Int): Decoration? {
+                val decoration = ColorDecoration()
+                decoration.decorationColor = Color.TRANSPARENT;
+                decoration.top = DeviceUtils.dp2px(requireContext(), 20f)
+                decoration.bottom = 0
+                decoration.left = DeviceUtils.dp2px(requireContext(), 15f)
+                decoration.right = DeviceUtils.dp2px(requireContext(), 15f)
+                return decoration
+            }
+        })
+        headActivitysList.layoutManager = layoutManager
+        headActivitysAdapter = DiscoverActivitysAdapter(
+            this,
+            discoverViewModel.activitysBean.value ?: arrayListOf(),
+            R.layout.jk_item_home_head_activity
+        )
+        headActivitysList.adapter = headActivitysAdapter
+
     }
 
     private fun updateBannersUI(banners: ArrayList<BannersBean>) {
@@ -190,6 +226,15 @@ class DiscoverFragment : Fragment() {
             R.layout.jk_item_home_head_egg
         )
         headEggsList.adapter = headEggsAdapter
+    }
+
+    private fun updateActivitysUI(activitys: ArrayList<ActivitysBean>) {
+        if (activitys == null || activitys.size == 0) {
+            headActivitysList.visibility = View.GONE
+            return
+        }
+        headActivitysList.visibility = View.VISIBLE
+        headActivitysAdapter.updateData(activitys)
     }
 
     private val onRefreshListener = OnRefreshListener {

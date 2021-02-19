@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.itsdf07.core.app.jk.JKSPUtils
 import com.itsdf07.core.app.jk.JKUrl
+import com.itsdf07.core.app.ui.fragment.home.bean.ActivitysBean
 import com.itsdf07.core.app.ui.fragment.home.bean.BannersBean
 import com.itsdf07.core.app.ui.fragment.home.bean.EggsBean
 import com.itsdf07.core.app.ui.fragment.home.bean.JKRespHeanBean
@@ -32,6 +33,12 @@ class DiscoverViewModel : BaseViewModel() {
      */
     private var _eggsBean = MutableLiveData<ArrayList<EggsBean>>()
     val eggsBean: LiveData<ArrayList<EggsBean>> = _eggsBean
+
+    /**
+     * 发现页可读写头部activitys区数据
+     */
+    private var _activitysBean = MutableLiveData<ArrayList<ActivitysBean>>()
+    val activitysBean: LiveData<ArrayList<ActivitysBean>> = _activitysBean
 
     /**
      * 可读写发现头部数据
@@ -77,6 +84,20 @@ class DiscoverViewModel : BaseViewModel() {
                 }
                 _eggsBean.value = eggs
 
+                //大图区数据
+                var activitys = _activitysBean.value ?: arrayListOf()
+                activitys.clear()
+                for (activity in (dataBean.data.activitys ?: arrayListOf())) {
+                    activitys.add(
+                        ActivitysBean(
+                            activity.id,
+                            activity.img,
+                            activity.url,
+                            activity.is_login
+                        )
+                    )
+                }
+                _activitysBean.value = activitys
 
                 JKSPUtils.getInstance()
                     .saveValue(JKSPUtils.JKSPKey.SP_KEY_APP_HOME_DISCOVER, response)

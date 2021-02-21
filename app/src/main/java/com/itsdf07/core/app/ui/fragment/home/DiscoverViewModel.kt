@@ -3,9 +3,12 @@ package com.itsdf07.core.app.ui.fragment.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
+import com.itsdf07.core.app.data.TabLayoutBean
 import com.itsdf07.core.app.jk.JKSPUtils
 import com.itsdf07.core.app.jk.JKUrl
+import com.itsdf07.core.app.jk.netbean.JKDiscoverThemeBean
 import com.itsdf07.core.app.ui.fragment.home.bean.*
+import com.itsdf07.core.app.ui.fragment.normal.AFragment
 import com.itsdf07.core.app.ui.vm.BaseViewModel
 import com.itsdf07.core.app.ui.vm.Notify2UILifeDataBean
 import com.itsdf07.core.lib.net.callback.ISuccess
@@ -63,19 +66,19 @@ class DiscoverViewModel : BaseViewModel() {
     val topicsBean: LiveData<ArrayList<TopicsBean>> = _topicsBean
 
     /**
+     * ViewPager中对应的页面集合
+     */
+    private val _tabs = MutableLiveData<ArrayList<TabLayoutBean>>().apply {
+        value = arrayListOf()
+        loadTabs()
+    }
+    val tabs: LiveData<ArrayList<TabLayoutBean>> = _tabs
+
+    /**
      * 可读写发现头部数据
      */
     private val _headBeanData = MutableLiveData<JKRespHeanBean.DataBean>().apply {
         value = simulateHeadData()
-    }
-
-    /**
-     * 仅可读发现头部数据，对外使用，用于UI驱动
-     */
-    val headBeanData: LiveData<JKRespHeanBean.DataBean> = _headBeanData
-
-    init {
-
     }
 
     /**
@@ -163,6 +166,7 @@ class DiscoverViewModel : BaseViewModel() {
 
                 JKSPUtils.getInstance()
                     .saveValue(JKSPUtils.JKSPKey.SP_KEY_APP_HOME_DISCOVER, response)
+
                 _headBeanData.value = dataBean.data
                 netNotifyLifeData.value = Notify2UILifeDataBean(0, "活动数据请求成功", JKUrl.HOME_ACTIVITY)
             })
@@ -173,6 +177,40 @@ class DiscoverViewModel : BaseViewModel() {
             .error { code: Int, msg: String? ->
                 netNotifyLifeData.value =
                     Notify2UILifeDataBean(API_ERROR, "服务器异常，请稍候重试", JKUrl.HOME_ACTIVITY)
+            }.build().get()
+    }
+
+    /**
+     * ViewPager中对应的页面集合
+     */
+    private fun loadTabs() {
+        NetClient.create().url(JKUrl.JK_API_DISCOVER_THEME)
+            .success(ISuccess { response: String? ->
+                if (filterErrorResponse(response)) {
+                    return@ISuccess
+                }
+
+                var dataBean: JKDiscoverThemeBean =
+                    Gson().fromJson(response, JKDiscoverThemeBean::class.java)
+                var tabLayoutBean: ArrayList<TabLayoutBean> = _tabs.value ?: arrayListOf()
+                for (tagBean in dataBean.data.tags) {
+                    tabLayoutBean.add(TabLayoutBean().apply {
+                        tabId = tagBean.t_id
+                        tabTitle = tagBean.tag
+                        fragment = AFragment()
+                    })
+                }
+                _tabs.value = tabLayoutBean
+                netNotifyLifeData.value =
+                    Notify2UILifeDataBean(0, "动态分类下发成功", JKUrl.JK_API_DISCOVER_THEME)
+            })
+            .failure {
+                netNotifyLifeData.value =
+                    Notify2UILifeDataBean(API_FAILURE, "网络异常，请检测网络！", JKUrl.JK_API_DISCOVER_THEME)
+            }
+            .error { code: Int, msg: String? ->
+                netNotifyLifeData.value =
+                    Notify2UILifeDataBean(API_ERROR, "服务器异常，请稍候重试", JKUrl.JK_API_DISCOVER_THEME)
             }.build().get()
     }
 

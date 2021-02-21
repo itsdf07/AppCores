@@ -18,6 +18,7 @@ public class TabLayoutBean {
      * 当前Tab对应要展示的标题，如分类
      */
     private String tabTitle;
+    private int tabId;
 
     public Fragment getFragment() {
         return fragment;
@@ -33,5 +34,13 @@ public class TabLayoutBean {
 
     public void setTabTitle(String tabTitle) {
         this.tabTitle = tabTitle;
+    }
+
+    public int getTabId() {
+        return tabId;
+    }
+
+    public void setTabId(int tabId) {
+        this.tabId = tabId;
     }
 }

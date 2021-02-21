@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/layout_comment_opt_bottom"
+    android:layout_below="@+id/layout_title"
+    android:descendantFocusability="blocksDescendants"
+    android:fillViewport="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_product_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:overScrollMode="never" />
+
+    <TextView
+        android:id="@+id/theme_over"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_below="@id/rv_product_list"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="到此为止哦"
+        android:textColor="#B5B5B5"
+        android:textSize="12dp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/discover_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginTop="50dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/default_mine_create" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="114dp"
+            android:gravity="center"
+            android:text="空空的也~ ๑´ㅂ`๑"
+            android:textColor="#B0B0B0"
+            android:textSize="12dp" />
+    </RelativeLayout>
+</RelativeLayout>

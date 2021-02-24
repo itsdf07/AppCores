@@ -2,6 +2,7 @@ import android.content.Intent
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.itsdf07.core.app.R
 import com.itsdf07.core.app.common.adapter.BaseRecyclerViewAdapter
 import com.itsdf07.core.app.common.adapter.BaseViewHolder
@@ -40,6 +41,9 @@ class DiscoverTopicsAdapter(
         info.text = "${data.num} ${data.tag}"
         Glide.with(context)
             .load(data.icon)
+            .apply(
+                RequestOptions.circleCropTransform()
+            )
             .into(avatarItem)
         holder.itemView.setOnClickListener {
 

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * @Description:
+ * @Description: 时间格式、转换 工具类
  * @Author itsdf07
  * @E-Mail 923255742@qq.com
  * @Github https://github.com/itsdf07
@@ -20,11 +20,13 @@ import java.util.TimeZone;
 public class DateTimeUtils {
 
     /**
-     * 0: yyyy-MM-dd<br>
-     * 1: yyyy/MM/dd<br>
-     * 2: MM/dd yyyy<br>
-     * 3: MM/dd HH:mm<br>
-     * 4: yyyy-MM-dd HH:mm:ss<br>
+     * 11: yyyy/MM/dd HH:mm:ss <br>
+     * 12: yyyy-MM-dd HH:mm:ss<br>
+     * 13: yyyy年MM月dd日 HH:mm:ss<br>
+     * <p>
+     * 21: yyyy/MM/dd HH:mm <br>
+     * 22: yyyy-MM-dd HH:mm<br>
+     * 23: yyyy年MM月dd日 HH:mm<br>
      *
      * @param format
      * @return 返回时间格式
@@ -32,72 +34,87 @@ public class DateTimeUtils {
     public static SimpleDateFormat dateTimeFormat(int format) {
         SimpleDateFormat df;
         switch (format) {
-            case 1:
+            case 11:
                 df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 break;
-            case 2:
-                df = new SimpleDateFormat("MM-dd HH:mm");
-                break;
-            case 3:
-                df = new SimpleDateFormat("MM-dd HH:mm:ss");
-                break;
-            case 4:
-                df = new SimpleDateFormat("M-d");
-                break;
-            case 5:
-                df = new SimpleDateFormat("M-d HH:mm:ss");
-                break;
-            case 6:
-                df = new SimpleDateFormat("mm:ss");
-                break;
-            case 7:
-                df = new SimpleDateFormat("yyyy/M/d");
-                break;
-            case 8:
-                df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-                break;
-            case 9:
-                df = new SimpleDateFormat("M/d HH:mm");
-                break;
-            case 10:
-                df = new SimpleDateFormat("yyyy年MM月");
-                break;
-            case 11:
-                df = new SimpleDateFormat("HH:mm:ss");
-                break;
             case 12:
-                df = new SimpleDateFormat("M月d日");
+                df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 break;
             case 13:
-                df = new SimpleDateFormat("HH:mm");
+                df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
                 break;
-            case 14:
+
+            case 21:
+                df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                break;
+            case 22:
+                df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                break;
+            case 23:
+                df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+                break;
+
+            case 31:
+                df = new SimpleDateFormat("yyyy/MM/dd");
+                break;
+            case 32:
                 df = new SimpleDateFormat("yyyy-MM-dd");
                 break;
-            case 0:
+            case 33:
+                df = new SimpleDateFormat("yyyy年MM月dd日");
+                break;
+
+            case 41:
+                df = new SimpleDateFormat("yyyy/MM");
+                break;
+            case 42:
+                df = new SimpleDateFormat("yyyy-MM");
+                break;
+            case 43:
+                df = new SimpleDateFormat("yyyy年MM月");
+                break;
+
+            case 51:
+                df = new SimpleDateFormat("MM/dd");
+                break;
+            case 52:
+                df = new SimpleDateFormat("MM-dd");
+                break;
+            case 53:
+                df = new SimpleDateFormat("MM月dd日");
+                break;
+
+            case 61:
+                df = new SimpleDateFormat("MM/dd HH:mm");
+                break;
+            case 62:
+                df = new SimpleDateFormat("MM-dd HH:mm");
+                break;
+            case 63:
+                df = new SimpleDateFormat("MM月dd日 HH:mm");
+                break;
+
             default:
-                df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                df = new SimpleDateFormat("yyyy-MM-dd HH:mm:sss");
                 break;
         }
         return df;
     }
 
     /**
-     * 根据时间毫秒数格式化时间
+     * 根据时间格式化时间
      *
      * @param dataTime 时间
      * @param style    样式
      * @return 格式化时间
      */
     public static String formatDateTime(Date dataTime, int style) {
-        String strTime;
         SimpleDateFormat df = dateTimeFormat(style);
-        strTime = df.format(dataTime);
-        return strTime;
+        return df.format(dataTime);
     }
 
     /**
-     * 根据时间毫秒数格式化时间<br>
+     * 根据时间格式化时间<br>
      *
      * @param time  时间
      * @param style 样式
@@ -105,6 +122,16 @@ public class DateTimeUtils {
      */
     public static String formatDateTime(long time, int style) {
         return formatDateTime(new Date(time), style);
+    }
+
+    /**
+     * 返回当前指定时间格式化的时间<br>
+     *
+     * @param style 样式
+     * @return 格式化时间
+     */
+    public static String formatCurrentDateTime(int style) {
+        return formatDateTime(new Date(), style);
     }
 
 
@@ -135,7 +162,6 @@ public class DateTimeUtils {
     }
 
 
-    //------------------------------------------------------------------------------------------------------------------
 
     /**
      * 计算两个日期相隔的天数.

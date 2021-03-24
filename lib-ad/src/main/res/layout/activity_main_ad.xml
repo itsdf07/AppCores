@@ -28,6 +28,13 @@
                 tools:text="4.330.1200" />
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/input_adid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="输入对应AD ID"
+            android:textColor="#000000" />
+
         <Button
             android:id="@+id/btn_splash"
             android:layout_width="match_parent"
@@ -41,7 +48,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_native_express"
+                android:id="@+id/btn_flow"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -57,7 +64,7 @@
         </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/splash_container"
+            android:id="@+id/ad_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

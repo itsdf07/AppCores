@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.itsdf07.core.lib.ad">
 
-    <application android:name=".AdApplication">
+    <application>
+
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="com.bytedance.sdk.openadsdk.TTFileProvider"

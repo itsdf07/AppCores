@@ -37,10 +37,20 @@ public interface AdAdvance {
     View loadSplashAdNativeExpress(Activity activity, ViewGroup viewGroup, String adId);
 
     /**
+     * 模板渲染-信息流
+     *
+     * @param activity
+     * @param viewGroup
+     * @param adId
+     * @return
+     */
+    View loadFlowAdNativeExpress(Activity activity, ViewGroup viewGroup, String adId);
+
+    /**
      * 模板渲染-插屏 AD
      *
      * @param adId
      */
-    void loadInterstitialNativeExpress(Activity activity,String adId);
+    void loadInterstitialNativeExpress(Activity activity, String adId);
 
 }

@@ -13,6 +13,7 @@ import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialADListener;
 import com.qq.e.comm.util.AdError;
 
+import java.util.Iterator;
 import java.util.Locale;
 
 /**
@@ -51,12 +52,17 @@ public class AdYlh extends BaseAdPlatform implements AdAdvance {
         return null;
     }
 
+    @Override
+    public View loadFlowAdNativeExpress(Activity activity, ViewGroup viewGroup, String adId) {
+        return null;
+    }
+
     private UnifiedInterstitialAD iad;
 
     @Override
     public void loadInterstitialNativeExpress(Activity activity, String adId) {
 
-        ALog.iTag(TAG, "模板渲染-插屏 Ad开始拉取,adId:%s", adId);
+        ALog.i("YLH 模板渲染-插屏 Ad开始拉取,adId:%s", adId);
         if (this.iad != null) {
             iad.close();
             iad.destroy();
@@ -67,7 +73,7 @@ public class AdYlh extends BaseAdPlatform implements AdAdvance {
              */
             @Override
             public void onADReceive() {
-                ALog.iTag(TAG,"eCPMLevel:%s", iad.getECPMLevel());
+                ALog.i("eCPMLevel:%s", iad.getECPMLevel());
                 if (iad != null && iad.isValid()) {
                     iad.showAsPopupWindow();
                 } else {
@@ -80,7 +86,7 @@ public class AdYlh extends BaseAdPlatform implements AdAdvance {
              */
             @Override
             public void onVideoCached() {
-                ALog.iTag(TAG,"onVideoCached->视频素材加载完成,可开始展示视频广告了");
+                ALog.i("onVideoCached->视频素材加载完成,可开始展示视频广告了");
             }
 
             /**
@@ -93,7 +99,7 @@ public class AdYlh extends BaseAdPlatform implements AdAdvance {
                 String msgInfo = String.format(Locale.getDefault(), "onNoAD, error code: %d, error msg: %s",
                         adError.getErrorCode(), adError.getErrorMsg());
                 Toast.makeText(activity, msgInfo, Toast.LENGTH_SHORT).show();
-                ALog.iTag(TAG,"YLH 模板渲染-插屏 AD拉取失败,adId:%s,code:%s,errMsg:%s", adId, adError.getErrorCode(), adError.getErrorMsg());
+                ALog.i("YLH 模板渲染-插屏 AD拉取失败,adId:%s,code:%s,errMsg:%s", adId, adError.getErrorCode(), adError.getErrorMsg());
 
             }
 
@@ -102,7 +108,7 @@ public class AdYlh extends BaseAdPlatform implements AdAdvance {
              */
             @Override
             public void onADOpened() {
-                ALog.iTag(TAG,"onADOpened...");
+                ALog.i("onADOpened...");
             }
 
             /**
@@ -110,8 +116,7 @@ public class AdYlh extends BaseAdPlatform implements AdAdvance {
              */
             @Override
             public void onADExposure() {
-                ALog.iTag(TAG,"onADExposure: 当前 %s 秒广告曝光");
-                Message msg = Message.obtain();
+                ALog.i("onADExposure: 当前 %s 秒广告曝光");
             }
 
             /**
@@ -119,7 +124,7 @@ public class AdYlh extends BaseAdPlatform implements AdAdvance {
              */
             @Override
             public void onADClicked() {
-                ALog.iTag(TAG,"onADClicked:clickUrl=%s", (iad.getExt() != null ? iad.getExt().get("clickUrl") : ""));
+                ALog.i("onADClicked:clickUrl=%s", (iad.getExt() != null ? iad.getExt().get("clickUrl") : ""));
             }
 
             /**

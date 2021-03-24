@@ -48,7 +48,7 @@ class SplashActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        adContainer = findViewById(R.id.splash_container)
+        adContainer = findViewById(R.id.ad_container)
         skipView = findViewById(R.id.skip_view)
         fetchSplashAD(this, adContainer, skipView, getPosId(), this, 5000)
     }

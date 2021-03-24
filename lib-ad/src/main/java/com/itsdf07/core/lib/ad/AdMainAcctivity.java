@@ -2,12 +2,15 @@ package com.itsdf07.core.lib.ad;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -15,7 +18,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.itsdf07.core.lib.ad.csj.AdCsj;
 import com.itsdf07.core.lib.ad.csj.TTAdManagerHolder;
 import com.itsdf07.core.lib.alog.ALog;
 import com.qq.e.comm.managers.GDTADManager;
@@ -38,13 +40,14 @@ public class AdMainAcctivity extends AppCompatActivity implements View.OnClickLi
     private final String YLH_POSID_4 = "9081661518595100";//  半屏插屏横版（仅图片）-4
     private final String YLH_POSID_5 = "4031369599997350";//  半屏插屏横版（仅图片）-5
     private final String YLH_POSID_6 = "8021665549691311";//  半屏插屏横版（仅图片）-6
-    FrameLayout mSplashContainer;
+    FrameLayout mAdContainer;
 
     Spinner sdks;
     TextView sdkVersion;
 
+    EditText inputAdId;
     Button btnSplash;
-    Button btnNativeExpress;
+    Button btnFlow;
     Button btnInterstitial;
 
     AdPaltformFactory adPaltformFactory;
@@ -54,15 +57,15 @@ public class AdMainAcctivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ad);
-
+        inputAdId = findViewById(R.id.input_adid);
         btnSplash = findViewById(R.id.btn_splash);
-        btnNativeExpress = findViewById(R.id.btn_native_express);
+        btnFlow = findViewById(R.id.btn_flow);
         btnInterstitial = findViewById(R.id.btn_interstitial);
         btnSplash.setOnClickListener(this);
-        btnNativeExpress.setOnClickListener(this);
+        btnFlow.setOnClickListener(this);
         btnInterstitial.setOnClickListener(this);
 
-        mSplashContainer = findViewById(R.id.splash_container);
+        mAdContainer = findViewById(R.id.ad_container);
 
         sdks = findViewById(R.id.sp_sdk);
         sdks.setSelection(0);
@@ -77,14 +80,14 @@ public class AdMainAcctivity extends AppCompatActivity implements View.OnClickLi
                         sdkName = "优亮汇";
                         sdkVersion.setText(sdkVersionYLH());
                         btnSplash.setEnabled(false);
-                        btnNativeExpress.setEnabled(false);
+                        btnFlow.setEnabled(false);
                         btnInterstitial.setEnabled(true);
                         break;
                     case 1: //穿山甲
                         sdkName = "穿山甲";
                         sdkVersion.setText(sdkVersionCSJ());
                         btnSplash.setEnabled(true);
-                        btnNativeExpress.setEnabled(true);
+                        btnFlow.setEnabled(true);
                         btnInterstitial.setEnabled(true);
                         break;
                 }
@@ -99,8 +102,6 @@ public class AdMainAcctivity extends AppCompatActivity implements View.OnClickLi
         if (Build.VERSION.SDK_INT >= 23 && Build.VERSION.SDK_INT < 29) {
             checkAndRequestPermission();
         }
-        initADCSJ();
-//        initADGDT();
 
         adPaltformFactory = new AdPaltformFactory();
     }
@@ -127,16 +128,6 @@ public class AdMainAcctivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void initADCSJ() {
-//        ALog.i("initADCSJ ...");
-        //穿山甲SDK初始化
-        //强烈建议在应用对应的Application#onCreate()方法中调用，避免出现content为null的异常
-        TTAdManagerHolder.init(this);
-        //如果明确某个进程不会使用到广告SDK，可以只针对特定进程初始化广告SDK的content
-        //if (PROCESS_NAME_XXXX.equals(processName)) {
-        //   TTAdManagerHolder.init(this)
-        //}
-    }
 
     private void initADGDT() {
         ALog.i("initADGDT ...");
@@ -154,22 +145,29 @@ public class AdMainAcctivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        String adId = inputAdId.getText().toString();
         if (id == R.id.btn_splash) {
-            if (sdks.getSelectedItemPosition() == 1) {
-
-            }
-        } else if (id == R.id.btn_native_express) {
-            if (sdks.getSelectedItemPosition() == 1) {
-
-            } else {
-
-            }
-        } else if (id == R.id.btn_interstitial) {
             if (sdks.getSelectedItemPosition() == 0) {
 
             } else if (sdks.getSelectedItemPosition() == 1) {
-                AdAdvance adCsj = adPaltformFactory.createAdPlatform(1<<1);
-                adCsj.loadInterstitialNativeExpress(this,"945896865");
+//                AdAdvance adCsj = adPaltformFactory.createAdPlatform(1 << 1);
+//                adCsj.loadSplashAdNativeExpress(this, mAdContainer, TextUtils.isEmpty(adId) ? "887450728" : adId);
+//                startActivity(new Intent(this, SplashActivity.class));
+            }
+        } else if (id == R.id.btn_flow) {
+            if (sdks.getSelectedItemPosition() == 0) {
+
+            } else if (sdks.getSelectedItemPosition() == 1) {
+                AdAdvance adCsj = adPaltformFactory.createAdPlatform(1 << 1);
+                adCsj.loadFlowAdNativeExpress(this, mAdContainer, TextUtils.isEmpty(adId) ? "945912187" : adId);
+            }
+        } else if (id == R.id.btn_interstitial) {
+            if (sdks.getSelectedItemPosition() == 0) {
+                AdAdvance adYlh = adPaltformFactory.createAdPlatform(1 << 0);
+                adYlh.loadInterstitialNativeExpress(this, TextUtils.isEmpty(adId) ? "6051369783915899" : adId);
+            } else if (sdks.getSelectedItemPosition() == 1) {
+                AdAdvance adCsj = adPaltformFactory.createAdPlatform(1 << 1);
+                adCsj.loadInterstitialNativeExpress(this, TextUtils.isEmpty(adId) ? "945896865" : adId);
             }
         }
     }

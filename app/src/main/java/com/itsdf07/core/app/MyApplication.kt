@@ -6,13 +6,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.itsdf07.core.app.jk.JKAppCacheCommon
 import com.itsdf07.core.app.jk.JKUrl
+import com.itsdf07.core.lib.ad.csj.TTAdManagerHolder
 import com.itsdf07.core.lib.alog.ALog
 import com.itsdf07.core.lib.alog.ALogLevel
 import com.itsdf07.core.lib.net.NetInit
-import com.itsdf07.core.lib.net.interceptor.IHeadParamsCallback
-import com.qq.e.comm.managers.GDTADManager
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.commonsdk.statistics.common.DeviceConfig
@@ -55,11 +53,7 @@ class MyApplication : Application(), LifecycleObserver {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         initNet()
         initUmeng()
-        initADGDT()
-    }
 
-    private fun initADGDT() {
-        GDTADManager.getInstance().initWith(this, "1111479260")
     }
 
     private fun initNet() {

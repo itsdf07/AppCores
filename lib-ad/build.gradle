@@ -14,6 +14,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        ndk { // 设置支持的 SO 库构架，注意这里要根据你的实际情况来设置
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'armeabi'
+        }
     }
 
     buildTypes {
@@ -26,15 +29,23 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+}
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
+    implementation project(path: ':open_ad_sdk3.4.5.4')
+//    implementation project(path: ':open_ad_sdk3.4.5.4')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    
     api 'com.qq.e.union:union:4.330.1200' // 普通版本
+    implementation 'com.itsdf07:lib-alog:0.0.1'
 }

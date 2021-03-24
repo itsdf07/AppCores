@@ -8,8 +8,8 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.itsdf07.core.app"
-//        applicationId "cn.makecode.codefarm"
+//        applicationId "com.itsdf07.core.app"
+        applicationId "com.rchat.pocmini"
 //        applicationId "com.qq.e.union.demo"
         minSdkVersion 19
         targetSdkVersion 30
@@ -18,16 +18,28 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        //睿洽签名
+        rchat_sign {
+            keyAlias 'Rchat'
+            keyPassword 'Rchatmobile123'
+            storeFile file('rchat_sign.jks')
+            storePassword 'Rchatmobile123'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             multiDexEnabled true //防止方法数量超过65536导致错误
+            //指定proguard文件
+            signingConfig signingConfigs.rchat_sign//签名
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
             multiDexEnabled true //防止方法数量超过65536导致错误
+            //指定proguard文件
+            signingConfig signingConfigs.rchat_sign//签名
         }
     }
     compileOptions {

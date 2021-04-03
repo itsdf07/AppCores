@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="sdk_platform">
-        <item>YLH</item>
-        <item>CSJ</item>
-    </string-array>
-</resources>

@@ -7,8 +7,6 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.itsdf07.core.app.jk.JKUrl
-import com.itsdf07.core.lib.ad.AdApplication
-import com.itsdf07.core.lib.ad.csj.TTAdManagerHolder
 import com.itsdf07.core.lib.alog.ALog
 import com.itsdf07.core.lib.alog.ALogLevel
 import com.itsdf07.core.lib.net.NetInit
@@ -25,7 +23,7 @@ import java.util.*
  * @Github https://github.com/itsdf07
  * @Date 2020/11/29
  */
-class MyApplication : AdApplication(), LifecycleObserver {
+class MyApplication : Application(), LifecycleObserver {
     companion object {
         lateinit var mContext: Context
     }

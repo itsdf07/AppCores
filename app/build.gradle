@@ -30,14 +30,14 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-//            multiDexEnabled true //防止方法数量超过65536导致错误
+            multiDexEnabled true //防止方法数量超过65536导致错误
             //指定proguard文件
             signingConfig signingConfigs.rchat_sign//签名
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
-//            multiDexEnabled true //防止方法数量超过65536导致错误
+            multiDexEnabled true //防止方法数量超过65536导致错误
             //指定proguard文件
             signingConfig signingConfigs.rchat_sign//签名
         }
@@ -75,6 +75,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation project(path: ':lib-ad')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

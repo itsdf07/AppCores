@@ -21,11 +21,11 @@ public class ADMainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ad_main);
-        findViewById(R.id.btn_ad_splash).setOnClickListener(v ->
-                startActivity(new Intent(ADMainActivity.this, SplashActivity.class))
-        );
-        findViewById(R.id.btn_ad_unifiedinterstitial).setOnClickListener(v ->
-                startActivity(new Intent(ADMainActivity.this, UnifiedInterstitialADActivity.class))
-        );
+//        findViewById(R.id.btn_ad_splash).setOnClickListener(v ->
+//                startActivity(new Intent(ADMainActivity.this, SplashActivity.class))
+//        );
+//        findViewById(R.id.btn_ad_unifiedinterstitial).setOnClickListener(v ->
+//                startActivity(new Intent(ADMainActivity.this, UnifiedInterstitialADActivity.class))
+//        );
     }
 }

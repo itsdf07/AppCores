@@ -1,3 +1,4 @@
+include ':lib-common'
 include ':lib-ad'
 include ':lib-net'
 include ':lib-alog'

@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/lib-ad" />
             <option value="$PROJECT_DIR$/lib-alog" />
+            <option value="$PROJECT_DIR$/lib-common" />
             <option value="$PROJECT_DIR$/lib-net" />
           </set>
         </option>

@@ -4,11 +4,14 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.itsdf07.core.app.R
 import com.itsdf07.core.lib.alog.ALog
+import com.itsdf07.core.lib.common.DeviceUtils
+import org.w3c.dom.Text
 
 
 /**
@@ -19,12 +22,12 @@ import com.itsdf07.core.lib.alog.ALog
  * @Date 2021/3/3
  */
 class MainActivity : AppCompatActivity() {
+    lateinit var deviceInfo: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        findViewById<Button>(R.id.btn1).setOnClickListener {
-            checkPermissioin()
-        }
+        deviceInfo = findViewById(R.id.deviceInfo)
+        checkPermissioin()
     }
 
     private val REQUEST_CODE_ADDRESS = 100
@@ -32,20 +35,43 @@ class MainActivity : AppCompatActivity() {
     private fun checkPermissioin() {
         val checkCoarse: Int = ContextCompat.checkSelfPermission(
             this@MainActivity,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.READ_PHONE_STATE
         )
-        val checkCoarseFine: Int = ContextCompat.checkSelfPermission(
-            this@MainActivity,
-            Manifest.permission.ACCESS_FINE_LOCATION
+        ALog.dTag(
+            "Permissions",
+            "权限，checkCoarse：%s",
+            checkCoarse
         )
-        ALog.dTag("Permissions", "权限，checkCoarse：%s,checkCoarseFine：%s",checkCoarse,checkCoarseFine)
-        if (checkCoarse == PackageManager.PERMISSION_GRANTED && checkCoarseFine == PackageManager.PERMISSION_GRANTED) {
-            //已经授权
+        if (checkCoarse == PackageManager.PERMISSION_GRANTED
+        ) {
+            var stringBuffer: StringBuffer = StringBuffer()
+            stringBuffer.append("AndroidId:" + DeviceUtils.getAndroidID(this) + "\n")
+            stringBuffer.append("IMEI:" + DeviceUtils.getImei(this) + "\n")
+            stringBuffer.append("IMSI:" + DeviceUtils.getImsi(this) + "\n")
+            stringBuffer.append("厂商:" + DeviceUtils.getBrand() + "\n")
+            stringBuffer.append("型号:" + DeviceUtils.getModel() + "\n")
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_PHONE_STATE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return
+            }
+            stringBuffer.append("序列号:" + DeviceUtils.getSerial() + "\n")
+            stringBuffer.append("制造商:" + DeviceUtils.getAndroidID(this) + "\n")
+            deviceInfo.text = stringBuffer.toString()
         } else { //没有权限
             ActivityCompat.requestPermissions(
                 this@MainActivity,
                 arrayOf<String>(
-                    Manifest.permission.ACCESS_COARSE_LOCATION
+                    Manifest.permission.READ_PHONE_STATE
 //                    Manifest.permission.ACCESS_FINE_LOCATION
                 ),
                 REQUEST_CODE_ADDRESS
@@ -58,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         ALog.dTag(
             "Permissions",
             "requestCode：%s,permissions：%s,grantResults:%s",
@@ -65,6 +92,15 @@ class MainActivity : AppCompatActivity() {
             permissions,
             grantResults
         )
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        var stringBuffer: StringBuffer = StringBuffer()
+        stringBuffer.append("AndroidId:" + DeviceUtils.getAndroidID(this) + "\n")
+        stringBuffer.append("IMEI:" + DeviceUtils.getImei(this) + "\n")
+        stringBuffer.append("IMSI:" + DeviceUtils.getImsi(this) + "\n")
+        stringBuffer.append("厂商:" + DeviceUtils.getBrand() + "\n")
+        stringBuffer.append("型号:" + DeviceUtils.getModel() + "\n")
+        stringBuffer.append("序列号:" + DeviceUtils.getSerial() + "\n")
+        stringBuffer.append("制造商:" + DeviceUtils.getAndroidID(this) + "\n")
+        deviceInfo.text = stringBuffer.toString()
+
     }
 }

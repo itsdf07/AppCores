@@ -28,15 +28,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:name">
-<!--        <activity-->
-<!--            android:name="com.itsdf07.core.app.ui.navidrawer.MainDrawerNaviActivity"-->
-<!--            android:screenOrientation="portrait">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+        <!--        <activity-->
+        <!--            android:name="com.itsdf07.core.app.ui.navidrawer.MainDrawerNaviActivity"-->
+        <!--            android:screenOrientation="portrait">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
         <!--        <activity-->
         <!--            android:name=".ui.activity.showimg.ShowBigImgActivity"-->
         <!--            android:screenOrientation="portrait">-->
@@ -64,8 +64,17 @@
         <!--                <category android:name="android.intent.category.LAUNCHER" />-->
         <!--            </intent-filter>-->
         <!--        </activity>-->
+        <!--        <activity-->
+        <!--            android:name=".ui.navi.MainActivity"-->
+        <!--            android:screenOrientation="portrait">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.MAIN" />-->
+
+        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
         <activity
-            android:name=".ui.navi.MainActivity"
+            android:name=".example.StartAnotherAppActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
